@@ -1,5 +1,5 @@
 import Vuex from 'vuex'
-import axios from 'axios'
+import axios from '~plugins/axios'
 
 const store = new Vuex.Store({
   state: {
@@ -22,8 +22,7 @@ function fetchProperty ({commit, route}, query) {
   return axios
     .request({
       url: `/public/properties/${route.params.id}/${route.params.unitId}`,
-      method: 'get',
-      baseURL: 'http://localhost:8181/api/'
+      method: 'get'
     })
     .then(response => {
       console.log('property', response.data)

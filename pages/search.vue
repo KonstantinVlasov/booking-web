@@ -33,7 +33,7 @@
 
 <script>
   import config from '~plugins/config'
-  import axios from 'axios'
+  import axios from '~plugins/axios'
   import SearchForm from '~components/landings/SearchForm.vue'
   import PropertyItem from '~components/property/PropertyItem.vue'
 
@@ -44,7 +44,6 @@
       .request({
         url: '/public/properties/search',
         method: 'get',
-        baseURL: 'http://localhost:8181/api/',
         params: query
       })
       .then(response => {

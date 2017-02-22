@@ -46,7 +46,7 @@
   .page.partners
     .b-page-header
       .b-page-header-background
-        img(src="https://image.shutterstock.com/z/stock-photo-beautiful-luxury-home-with-swimming-pool-at-sunset-297923627.jpg")
+        img(src="/web/public/images/landing-bg-2000.jpg")
       h1 Generate more bookings with cloud-based distribution platform
       p.b-info Automatically synchronize listings, prices, and calendars on the leading platforms
         br

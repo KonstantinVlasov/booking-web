@@ -12,3 +12,6 @@ dist
 
 # JetBrains files
 .idea
+
+# local envs
+local.env.js

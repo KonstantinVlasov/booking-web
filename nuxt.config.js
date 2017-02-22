@@ -1,7 +1,7 @@
 'use strict'
 
-const resolve = require('path').resolve
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const env = require('./env.js')
 
 module.exports = {
   /*
@@ -21,7 +21,9 @@ module.exports = {
       { rel: 'icon', type: 'image/png', sizes: '194x194', href: '/web/public/images/favicon-194x194.png' }
     ]
   },
+  env,
   plugins: [
+    '~plugins/axios',
     '~plugins/config',
     '~plugins/vue2-google-maps',
     '~plugins/element-ui'
@@ -71,13 +73,6 @@ module.exports = {
     }
   },
   router: {
-  //   extendRoutes (routes) {
-  //     routes.push({
-  //       name: 'extend-search',
-  //       path: '/search/location/:location?',
-  //       component: 'pages/search.vue'
-  //     })
-  //   },
     scrollBehavior: function (to, from, savedPosition) {
       return { x: 0, y: 0 }
     }

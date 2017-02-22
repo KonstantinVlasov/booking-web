@@ -46,9 +46,6 @@
           display: block;
           width: auto;
         }
-        &:nth-child(3) {
-          border-left: none;
-        }
       }
       .b-guests {
         width: 16%;
@@ -110,7 +107,7 @@
         el-form-item(label="Where")
           el-input.m-small(
             v-model.trim="query.term"
-            placeholder="Where do you want to go?"
+            v-bind:placeholder="wherePlaceholder"
           )
       .b-form-item.b-dates
         el-form-item(label="Check-in")
@@ -162,6 +159,7 @@
         icons: {
           arrowRight
         },
+        wherePlaceholder: '',
         editable: false,
         clearable: true
       }
@@ -190,7 +188,21 @@
             checkOut: moment(this.query.checkOut).format('YYYY-MM-DD')
           }
         })
+      },
+      updateWherePlaceholder () {
+        if (window.innerWidth > 960 || window.innerWidth <= 400) {
+          this.wherePlaceholder = 'Place'
+        } else {
+          this.wherePlaceholder = 'Where do you want to go?'
+        }
       }
+    },
+    mounted () {
+      window.addEventListener('resize', this.updateWherePlaceholder)
+      this.updateWherePlaceholder()
+    },
+    beforeDestroy () {
+      window.removeEventListener('resize', this.updateWherePlaceholder)
     }
   }
 </script>

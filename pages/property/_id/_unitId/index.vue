@@ -79,7 +79,6 @@
 </template>
 
 <script>
-  import axios from 'axios'
   import CheckAvailability from '~components/property/CheckAvailability.vue'
   import Amenities from '~components/property/Amenities.vue'
   import Calendar from '~components/property/Calendar.vue'
@@ -135,7 +134,6 @@
       }
     },
     mounted () {
-      document.body.scrollTop = 0
       window.addEventListener('resize', this.fitCarouselHeight)
       this.fitCarouselHeight()
 

@@ -6,7 +6,7 @@
   .page
     .b-page-header
       .b-page-header-background
-        img(src="https://image.shutterstock.com/z/stock-photo-beautiful-luxury-home-with-swimming-pool-at-sunset-297923627.jpg")
+        img(src="/web/public/images/landing-bg-2000.jpg")
       h1 iBookingNet
 
 
@@ -14,7 +14,7 @@
       .b-page-section.m-facture
         .b-page-overlay
           search-form.landing-form
-            
+
         .container
           featured-properties(
             v-if="italy && italy.properties.length"
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from '~plugins/axios'
 
 import SearchForm from '~components/landings/SearchForm.vue'
 import FeaturedProperties from '~components/landings/FeaturedProperties.vue'
@@ -47,24 +47,37 @@ function fetchProperties () {
   let spain = featuredProperties('Spain')
   let france = featuredProperties('France')
 
-  return axios.all([italy, spain, france])
-    .then(axios.spread(function (italy, spain, france) {
-      console.log(italy, spain, france)
+  return Promise.all([italy, spain, france])
+    .then(function (response) {
+      console.log('all response', response)
       return {
         italy: {
           title: 'New in Italy',
-          properties: italy.data.result.docs
+          properties: response[0].data.result.docs
         },
         spain: {
           title: 'New in Spain',
-          properties: spain.data.result.docs
+          properties: response[1].data.result.docs
         },
         france: {
           title: 'New in France',
-          properties: france.data.result.docs
+          properties: response[2].data.result.docs
         }
       }
-    }))
+    })
+    .catch(error => {
+      return {
+        italy: {
+          properties: [],
+        },
+        spain: {
+          properties: [],
+        },
+        france: {
+          properties: [],
+        }
+      }
+    })
 }
 
 function featuredProperties (term) {
@@ -72,20 +85,11 @@ function featuredProperties (term) {
       .request({
         url: '/public/properties/featured',
         method: 'get',
-        baseURL: 'http://localhost:8181/api/',
         params: {
           limit: 3,
           term
         }
       })
-      // .then(response => {
-      //   return {
-      //     [term]: {
-      //       title: term,
-      //       properties: response.data.result.docs
-      //     }
-      //   }
-      // })
 }
 
 export default {
