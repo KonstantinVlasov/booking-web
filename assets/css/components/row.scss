@@ -1,0 +1,23 @@
+@import "../mixins.scss";
+
+.container {
+  @include clearfix;
+  margin: 0 auto;
+  width: 80%;
+  max-width: 60rem;
+
+  &.m-medium {
+    max-width: 50rem;
+  }
+
+  &.m-short {
+    max-width: 40rem;
+  }
+  @media (max-width: 40rem) {
+    width: 90%;
+  }
+
+  .row {
+    margin: 0 -0.5rem;
+  }
+}

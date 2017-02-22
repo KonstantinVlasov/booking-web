@@ -1,0 +1,135 @@
+@import 'vars';
+
+// Buttons
+.el-button {
+  background-color: $color-blue;
+  border-color: $color-blue;
+  color: white;
+  border-radius: 2px;
+  letter-spacing: 2px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  padding: 0.75rem 1.75rem;
+  font-family: "Calibri", "Helvetica", Roboto, Arial, sans-serif;
+  transition: 0.3s all ease;
+
+  &:hover, &:active, &:focus {
+    color: white;
+    background-color: $color-blue-light;
+    border-color: $color-blue-light;
+  }
+
+  &.m-shadow {
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  }
+}
+
+// Forms
+.el-form-item {
+  margin-bottom: 0.5rem;
+}
+
+.el-form-item__label {
+  text-transform: uppercase;
+  padding: 0;
+}
+
+.el-input {
+  vertical-align: top;
+}
+
+.el-select {
+  width: 100%;
+
+  .el-input .el-input__icon {
+    font-size: 10px;
+    color: rgba($color-blue, 0.5);
+  }
+}
+
+.el-select-dropdown {
+  margin: 0.25rem 0;
+  border: none;
+  background-color: #32363e;
+
+  .el-select-dropdown__list {
+    padding: 0.25rem 0;
+  }
+
+  .el-select-dropdown__item {
+    line-height: $input-height;
+    height: $input-height;
+    padding: 0 0.625rem;
+    color: $color-font;
+
+    &.selected {
+      background-color: $color-blue;
+      color: white;
+    }
+
+    &.hover {
+      background-color: rgba($color-blue, 0.5);
+      color: white;
+    }
+  }
+}
+
+.el-input__inner, .el-textarea__inner {
+  color: $color-font;
+  border: none;
+  border-bottom: 1px solid lighten($color-font, 35%);
+  border-radius: 0;
+  background-color: rgba(255,255,255,0.051);
+  padding: 0;
+
+  &.hover {
+    border-color: $color-font;
+  }
+  &:focus {
+    border-color: $color-blue;
+  }
+}
+
+.el-input__inner {
+  height: 2rem;
+}
+
+.el-radio {
+  color: $color-font;
+
+  .el-radio__inner {
+    border: 1px solid #999;
+    background: none;
+  }
+}
+// Pagination
+.el-pagination {
+  display: inline-block;
+  padding: 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+
+  .btn-next, .btn-prev {
+    border: none;
+    color: $color-font;
+  }
+  button:hover {
+    color: $color-blue;
+  }
+}
+.el-pager li {
+  border: none;
+  &.active {
+    border-color: $color-blue;
+    background-color: $color-blue;
+    &:hover {
+      color: white;
+    }
+  }
+  &:last-child {
+    border: none;
+  }
+  &:hover {
+    color: $color-blue;
+  }
+
+}

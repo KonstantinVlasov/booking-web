@@ -1,0 +1,105 @@
+@import "components/page";
+@import "components/panel";
+@import "components/row";
+@import "landing-form";
+@import "forms";
+@import "vars";
+//@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,600');
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+html, body {
+  color: $color-font;
+  font-size: 16px;
+  font-family: "Helvetica Neue", "Calibri Light", Calibri, Arial, sans-serif;
+  font-weight: 300;
+  min-height: 100vh;
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 300;
+  color: black;
+}
+
+h1, h2 {
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+h1 {
+  font-size: 3rem;
+  font-weight: 600;
+  text-align: center;
+  margin: auto;
+  color: white;
+  text-align: center;
+
+  @media (max-width: 60rem) {
+    font-size: 2.5rem;
+  }
+
+  @media (max-width: 40rem) {
+    font-size: 1.75rem;
+  }
+
+}
+
+h2 {
+  font-weight: 300;
+  font-size: 2rem;
+  text-align: center;
+  margin: 1rem 0 3rem;
+
+  @media (max-width: 40rem) {
+    font-size: 1.75rem;
+    margin: 1rem 0 2rem;
+  }
+}
+
+h3 {
+  margin: 2rem 0 1rem;
+  text-align: center;
+}
+
+h4 {
+  font-family: "Calibri", "Helvetica", Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: lighten($color-font, 10%);
+  font-size: 0.875rem;
+  text-align: center;
+  margin: 2rem 0 1rem;
+}
+
+input, select, textarea, button {
+  font-family: "Helvetica Neue", "Calibri Light", Calibri, Arial, sans-serif;
+  font-weight: 300;
+}
+
+
+img {
+  width: 100%;
+}
+
+a, a:hover, a:visited {
+  color: $color-blue;
+  &:hover {
+    color: $color-blue;
+  }
+}
+
+.page-enter-active, .page-leave-active {
+  transition: opacity .4s
+}
+.page-enter, .page-leave-active {
+  opacity: 0
+}

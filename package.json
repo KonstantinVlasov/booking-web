@@ -1,0 +1,28 @@
+{
+  "name": "booking-web",
+  "version": "1.0.0",
+  "description": "Booking Web Portal",
+  "author": "KonstantinVlasov <konstantinnvlasov@gmail.com>",
+  "private": true,
+  "dependencies": {
+    "axios": "^0.15.3",
+    "element-ui": "^1.1.6",
+    "flatpickr": "^2.3.7",
+    "marker-clusterer-plus": "^2.1.4",
+    "moment": "^2.17.1",
+    "node-sass": "^4.3.0",
+    "normalize.css": "^5.0.0",
+    "nuxt": "latest",
+    "pug": "^2.0.0-beta7",
+    "sass-loader": "^4.1.1",
+    "style-loader": "^0.13.1",
+    "svg-inline-loader": "^0.7.1",
+    "vue2-google-maps": "^0.5.2"
+  },
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  }
+}

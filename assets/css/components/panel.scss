@@ -1,0 +1,23 @@
+.panel {
+  margin: 0 auto 1.5rem;
+  background-color: white;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  padding: 1rem 1.25rem;
+
+  &.m-landing {
+    max-width: 40rem;
+    padding: 3rem 4rem 4rem;
+
+    @media (max-width: 40rem) {
+      padding: 1.5rem 2rem 2rem;
+    }
+    @media (max-width: 30rem) {
+      padding: 0.5rem 2rem 2rem;
+    }
+  }
+
+  &.m-fit {
+    padding: 0;
+  }
+}
