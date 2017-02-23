@@ -180,10 +180,8 @@
       searchProperties () {
         console.log('search', this.query)
         this.$router.push({
-          path: 'search',
+          path: `/property/${this.$route.params.id}/${this.$route.params.unitId}/booking`,
           query: {
-            price: 0,
-            term: this.query.term,
             guests: this.query.guests,
             checkIn: moment(this.query.checkIn).format('YYYY-MM-DD'),
             checkOut: moment(this.query.checkOut).format('YYYY-MM-DD')

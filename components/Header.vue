@@ -34,7 +34,7 @@
       padding: 0;
     }
 
-    .b-title {
+    a.b-title {
       display: inline-block;
       color: inherit;
       text-decoration: none;
@@ -70,7 +70,7 @@
     .b-menu {
     }
 
-    .b-menu-item {
+    a.b-menu-item {
       display: inline-block;
       color: inherit;
       height: 4rem;

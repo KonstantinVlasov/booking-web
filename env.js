@@ -1,5 +1,6 @@
 let env = {
-  baseUrl: 'https://localhost:8181/api'
+  baseUrl: 'https://ibookingnet.com/api',
+  serverBaseUrl: 'http://localhost:8181/api'
 }
 
 try {

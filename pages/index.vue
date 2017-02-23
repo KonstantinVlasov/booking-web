@@ -49,7 +49,6 @@ function fetchProperties () {
 
   return Promise.all([italy, spain, france])
     .then(function (response) {
-      console.log('all response', response)
       return {
         italy: {
           title: 'New in Italy',

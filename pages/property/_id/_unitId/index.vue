@@ -134,9 +134,9 @@
       }
     },
     mounted () {
+      document.body.scrollTop= 0
       window.addEventListener('resize', this.fitCarouselHeight)
       this.fitCarouselHeight()
-
     },
     beforeDestroy () {
       window.removeEventListener('resize', this.handleWindowResize)

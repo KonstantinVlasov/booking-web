@@ -39,7 +39,6 @@
 
   function fetchProperties (query) {
     query.page = query.page ? parseInt(query.page) : 1
-    console.log('query', query)
     return axios
       .request({
         url: '/public/properties/search',
@@ -47,7 +46,6 @@
         params: query
       })
       .then(response => {
-        console.log(response.data)
         return {
           query: {
             term: query.term,

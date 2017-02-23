@@ -1,6 +1,7 @@
 'use strict'
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const webpack = require('webpack')
 const env = require('./env.js')
 
 module.exports = {
@@ -32,7 +33,6 @@ module.exports = {
     vendor: [
       'axios',
       'moment',
-      'vue2-google-maps',
       'element-ui'
     ],
     loaders: [{
@@ -69,7 +69,7 @@ module.exports = {
     }],
     extend (config) {
       config.plugins = config.plugins || []
-      config.plugins.push(new ExtractTextPlugin('styles.css'))
+      config.plugins.push(new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en)$/))
     }
   },
   router: {
