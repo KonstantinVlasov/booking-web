@@ -1,5 +1,5 @@
 <style lang="scss" scoped>
-  @import "../assets/css/mixins.scss";
+  @import "~assets/css/mixins.scss";
 
   .c-container {
     @include clearfix;

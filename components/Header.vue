@@ -12,7 +12,7 @@
 </template>
 
 <style lang="scss">
-  @import "../../assets/css/vars.scss";
+  @import "~assets/css/vars.scss";
 
   header {
     position: relative;

@@ -1,5 +1,5 @@
 <style lang="scss">
-  @import "../../assets/css/vars.scss";
+  @import "~assets/css/vars.scss";
 
   .amenities {
     max-width: 60rem;

@@ -1,5 +1,5 @@
 <style lang="scss">
-  @import '../../assets/css/vars';
+  @import '~assets/css/vars';
 
   .check-availbility {
 

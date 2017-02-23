@@ -1,4 +1,4 @@
-<style lang="scss" src="../assets/css/public.scss"></style>
+<style lang="scss" src="~assets/css/public.scss"></style>
 
 <template lang="pug">
   div

@@ -1,6 +1,6 @@
 <style lang="scss">
-  @import "../../assets/css/mixins.scss";
-  @import "../../assets/css/vars.scss";
+  @import "~assets/css/mixins.scss";
+  @import "~assets/css/vars.scss";
 
   .property-item {
     @include clearfix;

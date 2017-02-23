@@ -1,5 +1,5 @@
 <style lang="scss">
-  @import "../../assets/css/vars.scss";
+  @import "~assets/css/vars.scss";
 
   .featured-properties {
     margin: 2rem auto 6rem;

@@ -1,7 +1,3 @@
-<style scoped lang="scss">
-
-</style>
-
 <template lang="pug">
   .page
     .b-page-header

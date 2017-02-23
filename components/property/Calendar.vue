@@ -1,5 +1,5 @@
 <style lang="scss">
-  @import "../../assets/css/vars.scss";
+  @import "~assets/css/vars.scss";
 
   .calendar {
     max-width: 60rem;
