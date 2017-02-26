@@ -15,6 +15,12 @@
     .b-flatpickr-input {
       display: inline-block;
       width: 33.3%;
+      @media (max-width: 60rem) {
+        width: 50%;
+      }
+      @media (max-width: 40rem) {
+        width: 100%;
+      }
       input {
         display: none;
       }
@@ -23,6 +29,12 @@
         .flatpickr-calendar {
           border-right: 1px solid #eee;
         }
+        @media (max-width: 60rem) {
+          padding: 0 0.15rem 0 0;
+        }
+        @media (max-width: 40rem) {
+          padding: 0;
+        }
       }
       &.m-fp2 {
         padding: 0 0.1rem;
@@ -30,11 +42,20 @@
           border-left: 1px solid #eee;
           border-right: 1px solid #eee;
         }
+        @media (max-width: 60rem) {
+          padding: 0 0 0 0.15rem;
+        }
+        @media (max-width: 40rem) {
+          display: none;
+        }
       }
       &.m-fp3 {
         padding: 0 0 0 0.2rem;
         .flatpickr-calendar {
           border-left: 1px solid #eee;
+        }
+        @media (max-width: 60rem) {
+          display: none;
         }
       }
     }
@@ -339,9 +360,18 @@ function getCalendar ({index, startDay, $el, vacancy}) {
         self.syncCalendars(dObj, index, updateMonth)
         console.log('dates are', state.startDate, state.endDate, state.status, updateMonth)
       },
-      onDayCreate (dObj, dStr, fp, dayElem){
-        // Utilize dayElem.dateObj, which is the corresponding Date
-
+      onReady (dObj, dStr, fp) {
+        /*console.log(document.querySelectorAll(".numInput.cur-year"))
+        document.querySelectorAll(".numInput.cur-year").forEach(function (elem) {
+          elem.addEventListener("scroll", function(e) {
+            console.log('scroll1')
+          })
+          elem.onscroll = function(e) {
+            console.log('scroll2')
+          }
+        })*/
+      },
+      onDayCreate (dObj, dStr, fp, dayElem) {
         let date = moment.utc(dayElem.dateObj)
         let days = date.diff(startDay, 'days')
         let state
@@ -364,7 +394,7 @@ function getCalendar ({index, startDay, $el, vacancy}) {
         if (dayElem.classList.contains('prevMonthDay') ||
           dayElem.classList.contains('nextMonthDay')
         ) {
-        dayElem.innerHTML += "<span class='b-disabled'></span>"
+          dayElem.innerHTML += "<span class='b-disabled'></span>"
         }
       }
   }
