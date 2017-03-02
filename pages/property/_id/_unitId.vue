@@ -18,7 +18,7 @@
 <template lang="pug">
   .page.property-page(v-if="property && property.units")
     .b-page-header
-      .b-page-header-background.m-dark
+      .b-page-header-background.m-darken
         img(v-if="property.photos" v-bind:src="property.photos[0].url")
       h1 {{ property.name }}
       p.b-property-type

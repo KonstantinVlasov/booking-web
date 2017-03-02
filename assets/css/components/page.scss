@@ -81,6 +81,9 @@
     }
 
     &.m-dark>img {
+      filter: brightness(0.7);
+    }
+    &.m-darken>img {
       filter: brightness(0.6);
     }
   }

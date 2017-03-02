@@ -45,7 +45,7 @@
 <template lang="pug">
   .page.partners
     .b-page-header
-      .b-page-header-background
+      .b-page-header-background.m-dark
         img(src="/web/public/images/landing-bg-2000.jpg")
       h1 Generate more bookings with cloud-based distribution platform
       p.b-info Automatically synchronize listings, prices, and calendars on the leading platforms
@@ -76,8 +76,6 @@
                   li Reflect real-time availability on channels
 
       .b-page-section.m-facture
-        //.m-light
-        //img.b-page-section-background(src="https://image.shutterstock.com/z/stock-photo-beautiful-luxury-home-with-swimming-pool-at-sunset-297923588.jpg")
         .container
           .b-network
             h4 Channels
