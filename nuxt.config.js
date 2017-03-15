@@ -13,7 +13,8 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', content: 'iBookingNet Web Portal' }
+      { hid: 'description', content: 'iBookingNet Web Portal' },
+      { name: 'google-site-verification', content: '-WnyU9ecEyUiL3Zt6HQ0M6hTx1WtJcpFXcQP7B2xknc' }
     ],
     link: [
       { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/web/public/images/favicon-16x16.png' },
