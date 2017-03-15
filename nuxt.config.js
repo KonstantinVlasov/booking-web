@@ -25,6 +25,7 @@ module.exports = {
   },
   env,
   plugins: [
+    '~plugins/ga.js',
     '~plugins/axios',
     '~plugins/common-components',
     '~plugins/flatpickr',
