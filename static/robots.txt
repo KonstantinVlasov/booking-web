@@ -1,0 +1,21 @@
+# Hello, crawlers! Thanks for checking our robots.txt ^_^
+
+# navigation sitemap
+Sitemap: https://ibookingnet.com/sitemap.xml
+# properties sitemap
+Sitemap: https://ibookingnet.com/api/public/sitemap
+
+User-agent: psbot
+Disallow: /
+
+User-agent: TurnitinBot
+Disallow: /
+
+User-agent: NPBot-1/2.0
+Disallow: /
+
+User-agent: NPBot
+Disallow: /
+
+User-agent: *
+Disallow: /*/property/*/book

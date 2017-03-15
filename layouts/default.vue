@@ -1,5 +1,3 @@
-<style src="element-ui/lib/theme-default/index.css"></style>
-<style src="flatpickr/dist/themes/airbnb.css"></style>
 <style lang="scss" src="~assets/css/public.scss"></style>
 <style lang="scss">
   .layout {

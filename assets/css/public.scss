@@ -1,10 +1,11 @@
+@import "components/button";
+@import "components/date-picker";
+@import "components/grid";
 @import "components/page";
 @import "components/panel";
-@import "components/row";
 @import "landing-form";
 @import "forms";
 @import "vars";
-//@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,600');
 
 html {
   box-sizing: border-box;
@@ -62,6 +63,9 @@ h2 {
     font-size: 1.75rem;
     margin: 1rem 0 2rem;
   }
+  @media (max-width: 30rem) {
+    margin: 1rem 0;
+  }
 }
 
 h3 {
@@ -83,6 +87,8 @@ h4 {
 input, select, textarea, button {
   font-family: "Helvetica Neue", "Calibri Light", Calibri, Arial, sans-serif;
   font-weight: 300;
+  font-size: 1rem;
+  outline: none;
 }
 
 

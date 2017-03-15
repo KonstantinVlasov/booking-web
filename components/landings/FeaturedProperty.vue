@@ -118,7 +118,7 @@
     name: 'featuredProperty',
     computed: {
       url () {
-        return `/property/${this.property.id}/${this.unit.id}`
+        return `/${this.lang}/property/${this.property.id}/${this.unit.id}`
       },
       photoUrl () {
         let url = this.photo.url ? this.photo.url : undefined
@@ -138,6 +138,9 @@
       },
       title () {
         return this.property.name.substring(0, 24)
+      },
+      lang () {
+        return this.$store.state.lang.lang
       }
     },
     props: [

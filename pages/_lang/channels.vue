@@ -70,6 +70,11 @@
 <script>
   export default {
     scrollToTop: true,
+    head () {
+      return {
+        title: 'iBookingNet Channels'
+      }
+    },
     data ({ req }) {
       return {
         channels: {

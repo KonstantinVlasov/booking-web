@@ -358,16 +358,15 @@ function getCalendar ({index, startDay, $el, vacancy}) {
         }
 
         self.syncCalendars(dObj, index, updateMonth)
-        console.log('dates are', state.startDate, state.endDate, state.status, updateMonth)
       },
       onReady (dObj, dStr, fp) {
-        /*console.log(document.querySelectorAll(".numInput.cur-year"))
+        /*
         document.querySelectorAll(".numInput.cur-year").forEach(function (elem) {
           elem.addEventListener("scroll", function(e) {
-            console.log('scroll1')
+            console.info('scroll1')
           })
           elem.onscroll = function(e) {
-            console.log('scroll2')
+            console.info('scroll2')
           }
         })*/
       },
@@ -399,7 +398,6 @@ function getCalendar ({index, startDay, $el, vacancy}) {
       }
   }
 
-  let Flatpickr = require('flatpickr')
-  return new Flatpickr($el.querySelector(`.m-fp${index+1} input`), options);
+  return new Flatpickr($el.querySelector(`.m-fp${index+1} input`), options)
 }
 </script>

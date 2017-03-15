@@ -1,41 +1,38 @@
 <style scoped lang="scss">
   .contact-us {
     text-align: center;
-
-    &.el-form {
-      margin: 0 auto;
-      max-width: 18rem;
-    }
+    margin: 0 auto;
+    max-width: 18rem;
   }
 </style>
 
 <template lang="pug">
-  el-form.contact-us(:label-position="'top'")
-    el-form-item
-      el-input(
+  form.contact-us
+    .form-item
+      input(
         v-model="name"
         placeholder="Name"
+        required
       )
-    el-form-item
-      el-input(
+    .form-item
+      input(
         v-model="email"
         placeholder="Email"
+        required
       )
-    el-form-item
-      el-input(
+    .form-item
+      input(
         v-model="email"
         placeholder="Phone"
+        required
       )
-    el-form-item
-      el-input(
-        type="textarea"
-        v-bind:rows="3"
+    .form-item
+      textarea(
         v-model="comment"
         placeholder="Message"
       )
     br
-    br
-    el-button Request Info
+    .button(v-on:click="sendRequest") Request Info
 </template>
 
 <script>
@@ -48,6 +45,27 @@
         name: '',
         phone: '',
         comment: ''
+      }
+    },
+    methods: {
+      sendRequest () {
+        if (this.email && this.name && this.phone) {
+          console.log('success');
+          axios.post('/api/public/bookingcom', {
+            name: this.name,
+            email: this.email,
+            phone: this.phone
+          }, {
+            withCredentials: true
+          })
+            .then(function(response) {
+              location.href = 'https://join.booking.com/build-group/partner.html?token=&aid=1178542&lang=ru';
+            })
+            .catch(function(error) {
+              alert(error);
+            });
+
+        }
       }
     }
   }

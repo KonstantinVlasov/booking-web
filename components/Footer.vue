@@ -35,13 +35,23 @@
 <template lang="pug">
   footer
     .b-copyright
-      | 2300 Irving St, San Francisco, CA USA
+      | {{ $t('footer.address') }}
       br
-      | © 2017 iBookingNet | All Rights Reserved
+      | {{ $t('footer.copyright') }}
     br
     br
     .b-links
-      nuxt-link.b-link(to="/channels") Channels
-      nuxt-link.b-link(to="/partners") Partners
-      nuxt-link.b-link(to="/terms") Terms and Conditions
+      nuxt-link.b-link(v-bind:to="`/${lang}/channels`") {{ $t('menu.channels') }}
+      nuxt-link.b-link(v-bind:to="`/${lang}/partners`") {{ $t('menu.partners') }}
+      nuxt-link.b-link(v-bind:to="`/${lang}/terms`") {{ $t('menu.terms') }}
 </template>
+
+<script>
+  export default {
+    computed: {
+      lang () {
+        return this.$store.state.lang.lang
+      }
+    }
+  }
+</script>

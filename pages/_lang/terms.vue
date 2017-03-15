@@ -10,3 +10,14 @@
         .container
           p Terms and conditions coming soon
 </template>
+
+<script>
+export default {
+  scrollToTop: true,
+  head () {
+    return {
+      title: 'Terms and Conditions - iBookingNet'
+    }
+  }
+}
+</script>

@@ -25,15 +25,18 @@ module.exports = {
   env,
   plugins: [
     '~plugins/axios',
-    '~plugins/config',
-    '~plugins/vue2-google-maps',
-    '~plugins/element-ui'
+    '~plugins/common-components',
+    '~plugins/flatpickr',
+    '~plugins/i18n',
+    '~plugins/vue2-google-maps'
   ],
+  performance: {
+    gzip: true
+  },
   build: {
     vendor: [
       'axios',
-      'moment',
-      'element-ui'
+      'moment'
     ],
     loaders: [{
       test: /\.css$/,
@@ -73,16 +76,13 @@ module.exports = {
     }
   },
   router: {
+    middleware: 'i18n',
     scrollBehavior: function (to, from, savedPosition) {
       return { x: 0, y: 0 }
     }
   },
-  /*
-  ** Global CSS
-  */
-  // css: ['~assets/css/public.scss'],
-  /*
-  ** Customize the progress-bar color
-  */
-  loading: { color: '#3B8070' }
+  loading: {
+    color: '#3BAFDA',
+    height: '4px'
+  }
 }

@@ -5,30 +5,30 @@
         img(src="/web/public/images/landing-bg-2000.jpg")
       h1 iBookingNet
 
-
     .b-page-content
-      .b-page-section.m-facture
+      .b-page-section.m-no-padding.m-facture
         .b-page-overlay
           search-form.landing-form
 
+      .b-page-section.m-facture
         .container
           featured-properties(
             v-if="italy && italy.properties.length"
             v-bind:properties="italy.properties"
-            v-bind:title="italy.title"
-            v-bind:subtitle="'Fashion'"
+            v-bind:title="$t('home.featured.italy.title')"
+            v-bind:subtitle="$t('home.featured.italy.subtitle')"
           )
           featured-properties(
             v-if="spain && spain.properties.length"
             v-bind:properties="spain.properties"
-            v-bind:title="spain.title"
-            v-bind:subtitle="'Sunny'"
+            v-bind:title="$t('home.featured.spain.title')"
+            v-bind:subtitle="$t('home.featured.spain.subtitle')"
           )
           featured-properties(
             v-if="france && france.properties.length"
             v-bind:properties="france.properties"
-            v-bind:title="france.title"
-            v-bind:subtitle="'Romantic'"
+            v-bind:title="$t('home.featured.france.title')"
+            v-bind:subtitle="$t('home.featured.france.subtitle')"
           )
 </template>
 
@@ -77,14 +77,14 @@ function fetchProperties () {
 
 function featuredProperties (term) {
   return axios
-      .request({
-        url: '/public/properties/featured',
-        method: 'get',
-        params: {
-          limit: 3,
-          term
-        }
-      })
+    .request({
+      url: '/public/properties/featured',
+      method: 'get',
+      params: {
+        limit: 3,
+        term
+      }
+    })
 }
 
 export default {

@@ -8,7 +8,7 @@
       }
     }
     .b-about {
-      .el-col {
+      [class^="col-"] {
         @media (max-width: 30rem) {
           margin-left: 0;
           width: 100%
@@ -16,21 +16,21 @@
       }
     }
     .b-network {
-      .el-col {
+      [class^="col-"] {
         @media (max-width: 30rem) {
           width: 100%;
         }
       }
     }
     .b-faq {
-      .el-col {
+      [class^="col-"] {
         @media (max-width: 30rem) {
           width: 100%;
         }
       }
     }
     .b-price {
-      .el-col {
+      [class^="col-"] {
         @media (max-width: 50rem) {
           width: 50%;
         }
@@ -61,15 +61,15 @@
             h2 What is iBookingNet?
             p iBookingNet Channel Manager serves as an excellent communication bridge between your business and the distribution network. It gets all the information from you and transmits it to hundreds of channels.
             br
-            el-row(:gutter="16")
-              el-col(:span="16" v-bind:offset="4")
+            .row
+              .col-16.m-offset-4
                 img(src="/web/public/images/schema.png")
 
             br
             br
 
-            el-row(:gutter="16")
-              el-col(:span="16" v-bind:offset="4")
+            .row
+              .col-16.m-offset-4
                 ul
                   li Real Time Two-way Communication
                   li Automatically update all channels when a booking is made on any portal
@@ -82,16 +82,16 @@
             h2 Vacation rental distribution network
             p iBookingNet connects your vacation rental with some of the largest distribution channels in the world. By utilizing the iBookingNet platform you have access to as many channels as you want. It’s simple and effective.
 
-            el-row(:gutter="16")
-              el-col(:span="8")
+            .row
+              .col-8
                 h3 Increase Revenue
                 p By listing your vacation rental properties on various channels, you can now be exposed to millions of travelers, thus generating more bookings and more revenue!
 
-              el-col(:span="8")
+              .col-8
                 h3 Only One Single Contract
                 p iBookingNet has eliminated the need to individually contract with each individual channel. Our platform manages all the contracting and financial transactions on your behalf.
 
-              el-col(:span="8")
+              .col-8
                 h3 Automatically Update All of Your Channels
                 p iBookingNet will automatically update your entire inventory’s rates, availability & calendars, specials and promotions on all of your channels.
 
@@ -101,30 +101,30 @@
           .b-faq
             h4 information
             h2 Frequently asked questions
-            el-row(:gutter="16")
-              el-col(:span="12")
+            .row
+              .col-12
                 h3 Why should property managers and owners use iBookingNet?
                 p iBookingNet makes is easy for management professionals to list their vacation homes, RV parks campgrounds, and short-term rentals in the places travel agencies and real estate websites use to search and book vacation rentals.
 
-              el-col(:span="12")
+              .col-12
                 h3 Where do my vacation rentals appear?
                 p Once vacation rental listings are synchronized, imported, or added to iBookingNet they appear in your choice of distribution channels. Standard choices include online travel websites, travel agencies and real estate websites, plus a growing list of additional options.
 
-            el-row(:gutter="16")
-              el-col(:span="12")
+            .row
+              .col-12
                 h3 Who can list vacation rentals with iBookingNet?
                 p Property managers and owners can list supported types of vacation rentals on iBookingNet. Generally, all that is required is signing up for iBookingNet and transferring inventory from a management system or entering listing information directly into iBookingNet.
 
-              el-col(:span="12")
+              .col-12
                 h3 When should I update my iBookingNet listings?
                 p It’s best to update listings whenever there is a change to rates and availability or if something has changed at the property that would be important to a guest. When using iBookingNet with property management integration, updates will automatically synchronize. Otherwise, you should login to iBookingNet directly and make updates as frequently as desired.
 
-            el-row(:gutter="16")
-              el-col(:span="12")
+            .row
+              .col-12
                 h3 What types of vacation rentals are supported?
                 p The types of vacation rentals supported continue to grow. At this time, iBookingNet supports vacation homes, RV parks, campgrounds, and short-term rentals. Contact us if you have a different type of vacation rental you would like to add to iBookingNet.
 
-              el-col(:span="12")
+              .col-12
                 h3 How much does it cost to use iBookingNet?
                 p There is no cost to signup for iBookingNet and it’s free to try. The only time you pay anything is when a listing is booked using iBookingNet and you are charged a low service fee for each booking. This approach is sometimes called “pay for performance” and is risk free.
 
@@ -135,14 +135,14 @@
             h4 Costs
             h2 Friendly Pricing
 
-            el-row(:gutter="32")
-              el-col(:span="6")
+            .row
+              .col-6
                 p Customize your distribution channels based on the commission you would like to pay.
-              el-col(:span="6")
+              .col-6
                 p No monthly set up fee or convenience fee required. You only pay a small success commission for every booking generated.
-              el-col(:span="6")
+              .col-6
                 p Property managers have the option to decide if they want to be the merchant of record or have the channels be the merchant of record.
-              el-col(:span="6")
+              .col-6
                 p We manage the financial transactions for you.
 
       .b-page-section.m-facture.m-divider
@@ -155,17 +155,16 @@
 
 <script>
 import ContactUs from '~components/landings/ContactUs.vue'
-import dollar from '~assets/svg/dollar.svg'
 
 export default {
   scrollToTop: true,
   components: {
     ContactUs
   },
-    data () {
-      return {
-        dollar
-      }
+  head () {
+    return {
+      title: 'Working with iBookingNet'
     }
+  }
 }
 </script>

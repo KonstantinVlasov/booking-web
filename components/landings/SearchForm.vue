@@ -71,10 +71,10 @@
     }
 
     .b-submit {
-      padding: 1rem;
+      padding: 0 1rem;
       margin-top: 2.125rem;
       @media (max-width: 60rem) {
-        padding: 0.75rem 1.75rem;
+        padding: 0 1.75rem;
         margin-top: 0;
       }
     }
@@ -97,63 +97,45 @@
 </style>
 
 <template lang="pug">
-  el-form.m-landing.search-form(
-    v-bind:label-position="'top'"
-    v-bind:inline="true"
-    @submit.native.prevent="searchProperties"
+  form.m-landing.search-form(
+    @submit.prevent="searchProperties"
   )
     .b-form
       .b-form-item.b-place
-        el-form-item(label="Where")
-          el-input.m-small(
+        label Where
+        .form-field.m-small
+          input(
             v-model.trim="query.term"
             v-bind:placeholder="wherePlaceholder"
           )
       .b-form-item.b-dates
-        el-form-item(label="Check-in")
-          el-date-picker(
-            v-model="query.checkIn"
-            format="dd"
-            type="date"
-            v-bind:editable="editable"
-          )
-          el-date-picker.m-month(
-            v-model="query.checkIn"
-            format="/ MMM"
-            type="date"
-            v-bind:editable="editable"
-          )
-          .b-arrow(v-html="icons.arrowRight")
+        label Check-in
+        .form-field
+          landing-date-picker(v-model="checkIn")
       .b-form-item.b-dates
-        el-form-item(label="Check-out")
-          el-date-picker(
-            v-model="query.checkOut"
-            format="dd"
-            type="date"
-            v-bind:editable="editable"
-          )
-          el-date-picker.m-month(
-            v-model="query.checkOut"
-            format="/ MMM"
-            type="date"
-            v-bind:editable="editable"
-          )
-          .b-arrow(v-html="icons.arrowRight")
+        label Check-out
+        .form-field
+          landing-date-picker(v-model="checkOut")
       .b-form-item.b-guests
-        el-form-item(label="Guests")
-          el-input(
+        label Guests
+        .form-field
+          input(
             v-model.number="query.guests"
           )
     .b-action
       .b-form-item
-        el-button.b-submit(native-type="submit") Search
+        button.button.b-submit(type="submit") Search
 </template>
 
 <script>
+  import LandingDatePicker from '~components/landings/LandingDatePicker.vue'
   import arrowRight from '~assets/svg/arrow-right.svg'
   import moment from 'moment'
 
   export default {
+    components: {
+      LandingDatePicker
+    },
     data () {
       return {
         icons: {
@@ -161,31 +143,50 @@
         },
         wherePlaceholder: '',
         editable: false,
-        clearable: true
+        clearable: true,
       }
     },
-    props: {
-      query: {
-        default () {
-          return {
-            term: undefined,
-            checkIn: moment().add(1, 'days'),
-            checkOut: moment().add(8, 'days'),
-            guests: 2
-          }
+    computed: {
+      lang () {
+        return this.$store.state.lang.lang
+      },
+      query () {
+        return this.$store.state.query
+      },
+      checkIn: {
+        get () {
+          return moment(this.query.checkIn)
+        },
+        set (value) {
+          this.$store.commit('updateQueryCheckIn', value)
         }
-      }
+      },
+      checkOut: {
+        get () {
+          return moment(this.query.checkOut)
+        },
+        set (value) {
+          this.$store.commit('updateQueryCheckOut', value)
+        }
+      },
+      guests: {
+        get () {
+          return this.query.guests
+        },
+        set (value) {
+          this.$store.commit('updateQueryGuests', value)
+        }
+      },
     },
     methods: {
       searchProperties () {
-        console.log('search', this.query)
         this.$router.push({
-          path: 'search',
+          path: `${this.lang}/search`,
           query: {
             term: this.query.term,
-            guests: this.query.guests,
-            checkIn: moment(this.query.checkIn).format('YYYY-MM-DD'),
-            checkOut: moment(this.query.checkOut).format('YYYY-MM-DD')
+            checkIn: this.checkIn.format('YYYY-MM-DD'),
+            checkOut: this.checkOut.format('YYYY-MM-DD'),
+            guests: this.query.guests
           }
         })
       },

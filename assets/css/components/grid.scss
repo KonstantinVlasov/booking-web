@@ -16,8 +16,20 @@
   @media (max-width: 40rem) {
     width: 90%;
   }
+}
 
-  .row {
-    margin: 0 -0.5rem;
+.row {
+  @include clearfix;
+  margin: 0 -0.5rem;
+
+  @for $i from 1 through 24 {
+    .col-#{$i} {
+      float: left;
+      padding: 0 0.5rem;
+      width: 100% * $i / 24;
+    }
+    .m-offset-#{$i} {
+      margin-left: 100% * $i / 24;
+    }
   }
 }

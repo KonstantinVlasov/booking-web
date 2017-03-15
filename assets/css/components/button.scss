@@ -1,0 +1,29 @@
+@import '../vars';
+
+.button {
+  display: inline-block;
+  height: 2.5rem;
+  line-height: 2.375rem;
+  color: white;
+  background: $color-blue;
+  border: 1px solid $color-blue;
+  border-radius: 2px;
+  letter-spacing: 2px;
+  font-size: 0.75rem;
+  text-align: center;
+  text-transform: uppercase;
+  padding: 0 1.75rem;
+  font-family: "Calibri", "Helvetica", Roboto, Arial, sans-serif;
+  transition: 0.3s all ease;
+
+  &:hover, &:active, &:focus {
+    outline: none;
+    color: white;
+    background-color: $color-blue-light;
+    border-color: $color-blue-light;
+  }
+
+  &.m-shadow {
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  }
+}

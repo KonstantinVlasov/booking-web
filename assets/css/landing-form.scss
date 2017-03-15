@@ -2,80 +2,59 @@
 
 .landing-form {
 
-  .el-input {
-    vertical-align: bottom;
-    @media (max-width: 40rem) {
-      vertical-align: top;
-    }
-    &.m-small {
-      .el-input__inner {
-        margin-top: 0.625rem;
-        font-size: 1.75rem;
-        height: 2.375rem;
-      }
-    }
-  }
-
-  &.el-form--label-top .el-form-item__label {
-    @media (max-width: 25rem) {
-      height: 1.75rem;
-      line-height: 2.625rem;
-      text-align: left;
-      float: left;
-      width: 6rem;
-      padding: 0;
-    }
-  }
-
-  .el-form-item__content {
-    line-height: 1;
-    @media (max-width: 25rem) {
-      display: block;
-      margin-left: 6.5rem;
-    }
-  }
-
-  .el-input__inner {
+  input {
     color: black;
     height: 3rem;
     padding: 0;
     font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
     border: none;
     font-size: 3rem;
+    width: 100%;
 
     @media (max-width: 40rem) {
       height: 1.75rem;
       font-size: 1.75rem;
     }
+
+    &.m-small {
+      width: 4.5rem;
+      font-size: 1.25rem;
+      height: 1.875rem;
+    }
   }
 
-  &.el-form--inline .el-form-item {
-    margin: 0;
-  }
-
-  .el-input__icon+.el-input__inner {
-    padding-right: 0;
-  }
-
-  .el-input__icon {
-    display: none;
-  }
-
-  // date picker
-  .el-date-editor.el-input {
-    width: 3.5rem;
-    display: inline-block;
-
-    @media (max-width: 40rem) {
-      width: 2rem;
+  .form-field {
+    @media (max-width: 25rem) {
+      display: inline-block;
+      padding-left: 6.5rem;
     }
 
-    &.m-month {
-      width: 4.5rem;
-      .el-input__inner {
-        font-size: 1.25rem;
-        height: 1.875rem;
+    &.m-small input {
+      margin-top: 0.625rem;
+      font-size: 1.75rem;
+      height: 2.375rem;
+
+      @media (max-width: 25rem) {
+        vertical-align: bottom;
+        height: 2.25rem;
+        margin-top: 0;
       }
+    }
+  }
+
+  label {
+    vertical-align: top;
+    padding: 0 0 10px;
+    display: inline-block;
+    @media (max-width: 25rem) {
+      vertical-align: bottom;
+      height: 1.75rem;
+      line-height: 2.625rem;
+      text-align: left;
+      width: 6.5rem;
+      padding: 0;
+      position: absolute;
+      bottom: 0.1875rem;
     }
   }
 
@@ -128,6 +107,7 @@
     }
   }
   .b-form-item {
+    position: relative;
     display: inline-block;
     width: 100%;
     padding: 0 0.5rem 0 1.5rem;
@@ -162,17 +142,6 @@
     }
     @media (max-width: 25rem) {
       width: 100%;
-    }
-  }
-  .b-arrow {
-    position: absolute;
-    z-index: -1;
-    top: 1.75rem;
-    right: 0rem;
-    transform: rotate(90deg);
-    width: 0.675rem;
-    @media (max-width: 40rem) {
-      top: 0.625rem;
     }
   }
 }

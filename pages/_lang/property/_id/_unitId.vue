@@ -31,14 +31,21 @@
         span.b-dot {{ property.units[0].details.bedroomsCount }} Bedrooms
 
     .b-page-content
+      .b-page-section.m-no-padding.m-facture
+        .b-page-overlay.m-fit
+          check-availability.landing-form
       nuxt-child
 </template>
 
 <script>
   import axios from '~plugins/axios'
+  import CheckAvailability from '~components/property/CheckAvailability.vue'
 
   export default {
     scrollToTop: true,
+    components: {
+      CheckAvailability
+    },
     fetch ({store, route}) {
       return axios
         .request({
@@ -49,7 +56,7 @@
           store.commit('setProperty', response.data)
         })
         .catch(error => {
-          console.log('response', error)
+          console.error('response', error)
         })
     },
     data () {

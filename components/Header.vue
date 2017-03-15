@@ -1,14 +1,14 @@
 <template lang="pug">
   header
-    nuxt-link.b-title(to="/")
+    nuxt-link.b-title(v-bind:to="`/${lang}`")
       .b-logo(v-html="logo")
       | iBookingNet
 
     .b-menu
-      nuxt-link.b-menu-item(to="/") Home
-      nuxt-link.b-menu-item(to="/channels") Channels
-      nuxt-link.b-menu-item(to="/partners") Partners
-      nuxt-link.b-menu-item(to="/about") About
+      nuxt-link.b-menu-item(v-bind:to="`/${lang}`") {{ $t('menu.home') }}
+      nuxt-link.b-menu-item(v-bind:to="`/${lang}/channels`") {{ $t('menu.channels') }}
+      nuxt-link.b-menu-item(v-bind:to="`/${lang}/partners`") {{ $t('menu.partners') }}
+      nuxt-link.b-menu-item(v-bind:to="`/${lang}/about`") {{ $t('menu.about') }}
 </template>
 
 <style lang="scss">
@@ -97,6 +97,11 @@
   import logo from '~assets/svg/new-logo.svg'
 
   export default {
+    computed: {
+      lang () {
+        return this.$store.state.lang.lang
+      }
+    },
     data () {
       return {
         logo

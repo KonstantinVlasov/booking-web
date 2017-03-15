@@ -50,71 +50,78 @@
 <template lang="pug">
   .booking-page
     .b-page-section.m-facture
-      .b-page-overlay.m-fit
-        check-availability.landing-form
-
       .container
         .b-booking-form
           h3 Enter Your Details
           .b-booking-form-content
-            el-form(:label-position="'top'" v-bind:inline="true")
-              el-form-item(label="First Name")
-                el-input(
-                  v-model="booking.name"
-                )
-              el-form-item(label="Last Name")
-                el-input(
-                  v-model="booking.lastName"
-                )
-              el-form-item(label="Email")
-                el-input(
-                  v-model="booking.email"
-                )
-              el-form-item(label="Phone")
-                el-input(
-                  v-model="booking.phone"
-                )
-              el-form-item.m-wide(label="Order notes")
-                el-input(
+            form
+              .row
+                .col-12
+                  .form-item
+                    label First Name
+                    input(
+                      v-model="booking.name"
+                    )
+                .col-12
+                  .form-item
+                    label Last Name
+                    input(
+                      v-model="booking.lastName"
+                    )
+              .row
+                .col-12
+                  .form-item
+                    label Email
+                    input(
+                      v-model="booking.email"
+                    )
+                .col-12
+                  .form-item
+                    label Phone
+                    input(
+                      v-model="booking.phone"
+                    )
+              .form-item
+                label.m-wide Order notes
+                textarea(
                   v-model="booking.comment"
-                  type="textarea"
-                  v-bind:rows="2"
                 )
 
         .b-booking-form
           h3 Enter Card Details
           .b-booking-form-content
-            el-form(:label-position="'top'" v-bind:inline="true")
-              el-form-item.m-wide(label="Card number")
-                el-input(
+            form
+              .m-wide
+                label Card number
+                input(
                   v-model="booking.cc.number"
                   type="number"
                 )
-              el-form-item(label="Expiration Date")
-                el-date-picker(
-                  v-model="booking.cc.expiration"
-                  format="MM/DD"
-                  type="month"
-                )
-              el-form-item(label="Security Code")
-                el-input(
-                  v-model="booking.cc.cvv"
-                  type="number"
-                )
+              label Expiration Date
+              date-picker(
+                v-model="booking.cc.expiration"
+                format="MM/DD"
+              )
+              label Security Code
+              input(
+                v-model="booking.cc.cvv"
+                type="number"
+              )
 
           .b-booking-form-footer Your data is transferred in a secured and encrypted way.
         .b-action
-          el-button.m-shadow Confirm Booking
+          .button.m-shadow Confirm Booking
 </template>
 
 <script>
   import axios from 'axios'
-  import CheckAvailability from '~components/property/CheckAvailability.vue'
 
   export default {
     scrollToTop: true,
-    components: {
-      CheckAvailability
+    head () {
+      return {
+        title: `${this.property.name} - iBookingNet`
+      }
     },
     data () {
       return {

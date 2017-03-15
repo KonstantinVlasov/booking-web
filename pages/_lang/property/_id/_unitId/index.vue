@@ -23,24 +23,14 @@
 
 <template lang="pug">
   .property-page
-
     .b-page-section.m-facture
-
-      .b-page-overlay.m-fit
-        check-availability.landing-form
-
       .container.m-medium
         .b-photos
           h2.b-title Photos
           .b-photos-content
-            el-carousel#property-photos(
-              arrow="always"
-              v-bind:autoplay="false"
-              v-bind:height="carouselHeight"
-              indicator-position="none"
-            )
-              el-carousel-item(v-for="photo in photos")
-                img(v-if="photo" v-bind:src="photo.url")
+            slider
+              slider-item(v-for="photo in photos")
+                img(v-bind:src="photo.url")
 
     .b-page-section
       .container.m-medium
@@ -79,16 +69,19 @@
 </template>
 
 <script>
-  import CheckAvailability from '~components/property/CheckAvailability.vue'
   import Amenities from '~components/property/Amenities.vue'
   import Calendar from '~components/property/Calendar.vue'
 
   export default {
     scrollToTop: true,
     components: {
-      CheckAvailability,
       Amenities,
       Calendar
+    },
+    head () {
+      return {
+        title: `${this.property.name} - iBookingNet`
+      }
     },
     data () {
       return {
@@ -129,8 +122,8 @@
     },
     methods: {
       fitCarouselHeight () {
-        let carouselContainer = document.getElementsByClassName('el-carousel__container')[0]
-        this.carouselHeight = carouselContainer.clientWidth * 9 / 16 + 'px'
+        // let carouselContainer = document.getElementsByClassName('el-carousel__container')[0]
+        // this.carouselHeight = carouselContainer.clientWidth * 9 / 16 + 'px'
       }
     },
     mounted () {
@@ -139,7 +132,7 @@
       this.fitCarouselHeight()
     },
     beforeDestroy () {
-      window.removeEventListener('resize', this.handleWindowResize)
+      window.removeEventListener('resize', this.fitCarouselHeight)
     }
   }
 </script>

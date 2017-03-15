@@ -1,0 +1,51 @@
+{
+  "menu": {
+    "home": "Home",
+    "about": "About",
+    "channels": "Channels",
+    "partners": "Partners",
+    "terms": "Terms and Conditions"
+  },
+  "footer": {
+    "address": "2300 Irving St, San Francisco, CA USA",
+    "copyright": "© 2017 iBookingNet | All Rights Reserved"
+  },
+  "home": {
+    "title": "iBookingNet",
+    "featured": {
+      "italy": {
+        "title": "New in Italy",
+        "subtitle": "Fashion"
+      },
+      "spain": {
+        "title": "New in Spain",
+        "subtitle": "Sunny"
+      },
+      "france": {
+        "title": "New in France",
+        "subtitle": "Romantic"
+      }
+    }
+  },
+  "channels": {
+
+  },
+  "about": {
+    "title": "About",
+    "introduction": "This page is made to give you more informations."
+  },
+  "searchForm": {
+    "term": "Where",
+    "checkIn": "Check-in",
+    "checkOut": "Check-out",
+    "guests": "Guests",
+    "search": "Search"
+  },
+  "availabilityForm": {
+    "checkIn": "Check-in",
+    "checkOut": "Check-out",
+    "guests": "Guests",
+    "checkDates": "Check dates",
+    "book": "Book now"
+  }
+}

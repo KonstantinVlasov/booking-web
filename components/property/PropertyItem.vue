@@ -120,7 +120,7 @@
 
     .b-quote {
       display: inline-block;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
       @media (max-width: 35rem) {
         margin: 0;
       }
@@ -128,11 +128,7 @@
 
     .b-property-show {
       vertical-align: bottom;
-      margin-top: 0.75rem;
       margin-left: 1rem;
-      @media (max-width: 50rem) {
-        margin-top: 0;
-      }
     }
     .b-property-quote-info {
       @media (max-width: 50rem) {
@@ -171,15 +167,18 @@
         span from
         span.b-property-price USD {{ dailyMin }}
         .b-property-quote-info per property for 1 night
-      el-button.b-property-show View details
+      .button.b-property-show View details
 </template>
 
 <script>
   export default {
     name: 'propertyItem',
     computed: {
+      lang () {
+        return this.$store.state.lang.lang
+      },
       url () {
-        return `/property/${this.property.id}/${this.property.unit.id}`
+        return `/${this.lang}/property/${this.property.id}/${this.property.unit.id}`
       },
       photoUrl () {
         let url = (this.property.photo && this.property.photo.url) ? this.property.photo.url : undefined
@@ -210,7 +209,7 @@
       }
     },
     methods: {
-    // width 360, height 270, crop fill, quality auto
+      // width 360, height 270, crop fill, quality auto
       formatImage (url) {
         let result = url.split('/upload/')
         result[0] += '/upload/w_360,h_270,c_fill,q_auto/'
