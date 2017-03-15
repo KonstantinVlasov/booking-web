@@ -1,7 +1,7 @@
 let env = {
-  baseUrl: 'http://ibookingnet.com',
+  baseUrl: 'https://ibookingnet.com',
   serverBaseUrl: 'http://localhost:8181',
-  staticUrl: 'http://ibookingnet.com'
+  staticUrl: 'https://ibookingnet.com'
 }
 
 try {
