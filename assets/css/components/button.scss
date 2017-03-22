@@ -1,8 +1,9 @@
 @import '../vars';
 
 .button {
+  position: relative;
   display: inline-block;
-  height: 2.5rem;
+  height: $input-height;
   line-height: 2.375rem;
   color: white;
   background: $color-blue;
@@ -13,8 +14,9 @@
   text-align: center;
   text-transform: uppercase;
   padding: 0 1.75rem;
-  font-family: "Calibri", "Helvetica", Roboto, Arial, sans-serif;
-  transition: 0.3s all ease;
+  font-family: $font-family-text-bold;
+  cursor: pointer;
+  transition: 0.4s all ease;
 
   &:hover, &:active, &:focus {
     outline: none;
@@ -23,7 +25,42 @@
     border-color: $color-blue-light;
   }
 
+  &.m-disabled {
+    background-color: $color-gray;
+    border-color: $color-gray;
+    cursor: default;
+  }
+
   &.m-shadow {
     box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+  }
+
+  $loading-width: 1.25rem;
+  &.m-loading {
+    color: transparent;
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -$loading-width/2;
+      margin-left: -$loading-width/2;
+      width: $loading-width;
+      height: $loading-width;
+      border: 1px solid white;
+      border-radius: 50%;
+      border-top-color: transparent;
+
+      animation: spin 1s linear infinite;
+    }
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  } to {
+    transform: rotate(360deg);
   }
 }
