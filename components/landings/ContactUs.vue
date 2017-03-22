@@ -22,7 +22,7 @@
       )
     .form-item
       input(
-        v-model="email"
+        v-model="phone"
         placeholder="Phone"
         required
       )
@@ -32,11 +32,14 @@
         placeholder="Message"
       )
     br
-    .button(v-on:click="sendRequest") Request Info
+    .button(
+      v-on:click="sendRequest"
+      v-bind:class="{'m-loading': loading, 'm-disabled': requestSent}"
+    ) {{ buttonTitle }}
 </template>
 
 <script>
-  import axios from 'axios'
+  import axios from '~plugins/axios'
 
   export default {
     data () {
@@ -44,28 +47,39 @@
         email: '',
         name: '',
         phone: '',
-        comment: ''
+        comment: '',
+        loading: false,
+        requestSent: false,
+        buttonTitle: 'Request Info'
       }
     },
     methods: {
       sendRequest () {
-        if (this.email && this.name && this.phone) {
-          console.log('success');
-          axios.post('/api/public/bookingcom', {
+        let component = this
+        if (!this.requestSent && this.email && this.name && this.phone) {
+          this.loading = true
+          axios.post('/public/contactUs', {
             name: this.name,
             email: this.email,
-            phone: this.phone
+            phone: this.phone,
+            comment: this.comment
           }, {
             withCredentials: true
           })
-            .then(function(response) {
-              location.href = 'https://join.booking.com/build-group/partner.html?token=&aid=1178542&lang=ru';
+            .then(function () {
+              console.log('success')
+              component.finishRequest()
             })
-            .catch(function(error) {
-              alert(error);
-            });
-
+            .catch(function (error) {
+              console.error(error)
+              component.finishRequest()
+            })
         }
+      },
+      finishRequest () {
+        this.loading = false
+        this.requestSent = true
+        this.buttonTitle = 'Request sent'
       }
     }
   }
