@@ -1,5 +1,5 @@
 <style lang="scss">
-  @import "~assets/css/vars.scss";
+  @import "../assets/css/vars.scss";
 
   footer {
     background: $color-dark;
@@ -47,6 +47,9 @@
 </template>
 
 <script>
+  /**
+   * @param this.$store
+   */
   export default {
     computed: {
       lang () {

@@ -30,8 +30,4 @@ export default {
   color: #9aabb1;
   margin: 0;
 }
-.button
-{
-  margin-top: 50px;
-}
 </style>

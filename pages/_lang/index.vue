@@ -61,15 +61,16 @@ function fetchProperties () {
       }
     })
     .catch(error => {
+      console.error(error)
       return {
         italy: {
-          properties: [],
+          properties: []
         },
         spain: {
-          properties: [],
+          properties: []
         },
         france: {
-          properties: [],
+          properties: []
         }
       }
     })
@@ -93,7 +94,7 @@ export default {
     SearchForm,
     FeaturedProperties
   },
-  data (context) {
+  data () {
     return fetchProperties()
   }
 }

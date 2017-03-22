@@ -1,15 +1,3 @@
-<style lang="scss" src="~assets/css/public.scss"></style>
-<style lang="scss">
-  .layout {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-  .content {
-    flex: 1;
-  }
-</style>
-
 <template lang="pug">
   .layout
     app-header
@@ -28,3 +16,15 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" src="~assets/css/public.scss"></style>
+<style lang="scss">
+  .layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  .content {
+    flex: 1;
+  }
+</style>
