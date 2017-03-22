@@ -6,10 +6,11 @@
     color: black;
     height: 3rem;
     padding: 0;
-    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    font-family: $font-family-title;
     border: none;
     font-size: 3rem;
     width: 100%;
+    background: none;
 
     @media (max-width: 40rem) {
       height: 1.75rem;
@@ -46,6 +47,7 @@
     vertical-align: top;
     padding: 0 0 10px;
     display: inline-block;
+    margin-bottom: 0;
     @media (max-width: 25rem) {
       vertical-align: bottom;
       height: 1.75rem;
@@ -112,7 +114,7 @@
     width: 100%;
     padding: 0 0.5rem 0 1.5rem;
     vertical-align: top;
-    border-left: 1px solid lighten($color-font, 35%);
+    border-left: 1px solid $color-gray;
 
     @media (max-width: 40rem) {
       padding: 0 0.5rem 0 1rem;
@@ -122,7 +124,7 @@
       margin: 0 0.75rem 0.75rem;
       padding: 0 0 0.125rem;
       border: none;
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid $color-gray;
       width: auto;
     }
 
