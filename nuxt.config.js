@@ -9,11 +9,12 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'iBookingNet',
+    title: 'iBookingNet - Holiday Homes & Villas, Luxury Cottages & Apartments to Rent',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', content: 'iBookingNet Web Portal' },
+      { name: 'description', hid: 'description', content: 'Book holiday houses, cottages, luxury villas & apartment online through ibooking.net. Visit our website and find the holiday rentals all around the world.' },
+      { name: 'keywords', hid: 'keywords', content: 'Holiday Homes, Holiday Houses, Cottage Holidays, Holiday Apartment, Villa Holidays, Luxury Holiday Cottages, Holiday Homes Online, Book Holiday Accommodation, Holiday Home Rentals, Holiday Apartment Rental, Holiday Cottages Rental, Holiday Villa Rental, Holiday Cottages To Rent, Holiday Home To Rent, Holiday Villa To Rent, Holiday Apartments To Rent, Book Holiday Cottages, Book Holiday Villa, Book Villa Online, Book Apartment Online, holiday villas, Holiday Accommodation Apartments To Rent, holiday villas, holiday accommodation, Book Holiday Accommodation' },
       { name: 'google-site-verification', content: '-WnyU9ecEyUiL3Zt6HQ0M6hTx1WtJcpFXcQP7B2xknc' }
     ],
     link: [
@@ -74,12 +75,13 @@ module.exports = {
     }],
     extend (config) {
       config.plugins = config.plugins || []
+      config.plugins.push(new ExtractTextPlugin('styles.css'))
       config.plugins.push(new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en)$/))
     }
   },
   router: {
     middleware: 'i18n',
-    scrollBehavior: function (to, from, savedPosition) {
+    scrollBehavior: function () {
       return { x: 0, y: 0 }
     }
   },
