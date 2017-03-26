@@ -1,13 +1,12 @@
 <style lang="scss">
-  @import "~assets/css/mixins.scss";
-  @import "~assets/css/vars.scss";
+  @import "../../assets/css/mixins.scss";
+  @import "../../assets/css/vars.scss";
 
   .property-item {
     @include clearfix;
     margin-bottom: 1.5rem;
     background: white;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    transition: 0.4s all ease;
     color: $color-font;
     border-radius: 2px;
     overflow: hidden;
@@ -171,6 +170,8 @@
 </template>
 
 <script>
+  import utils from '~plugins/utils'
+
   export default {
     name: 'propertyItem',
     computed: {
@@ -194,7 +195,7 @@
         }
         let currentRate = self.property.unit.rates[0]
         if (self.checkIn) {
-          self.property.unit.rates.forEach(function(rate) {
+          self.property.unit.rates.forEach(function (rate) {
             if (new Date(rate.startDate).getTime() <= self.checkIn &&
                 new Date(rate.endDate).getTime() > self.checkIn) {
               currentRate = rate
@@ -203,7 +204,7 @@
         }
 
         if (currentRate.dailyMin) {
-          return currentRate.dailyMin.toFixed()
+          return utils.addTax(currentRate.dailyMin)
         }
         return 0
       }

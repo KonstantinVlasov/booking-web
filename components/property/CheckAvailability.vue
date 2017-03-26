@@ -1,7 +1,204 @@
-<style lang="scss">
-  @import '~assets/css/vars';
+<template lang="pug">
+  form.m-landing.check-availability(
+    @submit.prevent="bookProperty"
+  )
+    .b-form
+      .b-form-item
+        label {{ $t('availabilityForm.checkIn') }}
+        .form-field
+          landing-date-picker(v-model="checkIn")
+      .b-form-item
+        label {{ $t('availabilityForm.checkOut') }}
+        .form-field
+          landing-date-picker(v-model="checkOut")
+      .b-form-item
+        label {{ $t('availabilityForm.guests') }}
+        .form-field
+          input(
+            v-model.number="guests"
+          )
 
-  .check-availbility {
+    .b-action
+      .b-form-item.m-quote(v-if="mode === 'quote'")
+        .b-quote
+          span from
+          span.b-property-price USD {{ dailyMin }}
+          .b-quote-info(v-if="!error") per property for 1 night
+
+          .b-quote-info.m-error(v-if="error") Dates unavailable
+
+        .button.b-submit(
+          v-on:click.prevent="quoteProperty"
+          v-bind:class="{'m-loading': quoteLoading}"
+        ) {{ $t('availabilityForm.checkDates') }}
+
+      .b-form-item.m-book(v-if="mode === 'book'")
+        .b-quote
+          span.b-property-price USD {{ total }}
+          .b-quote-info per property for {{ nights }} nights
+
+        button.button.b-submit(type="submit") {{ $t('availabilityForm.book') }}
+
+    <!--.b-details(v-if="!showDetails")-->
+      <!--.b-details-item Cancellation policy-->
+</template>
+
+<script>
+  import axios from '~plugins/axios'
+  import utils from '~plugins/utils'
+  import LandingDatePicker from '~components/landings/LandingDatePicker.vue'
+  import arrowRight from '~assets/svg/arrow-right.svg'
+  import moment from 'moment'
+
+  /**
+   * @param this.$router
+   * @param this.$store.commit
+   * @param this.property.unit.rates
+   */
+  export default {
+    components: {
+      LandingDatePicker
+    },
+    data () {
+      return {
+        icons: {
+          arrowRight
+        },
+        mode: 'quote',
+        showDetails: false,
+        error: undefined,
+        quoteLoading: false,
+        editable: false,
+        clearable: true
+      }
+    },
+    computed: {
+      lang () {
+        return this.$store.state.lang.lang
+      },
+      quote () {
+        return this.$store.state.quote
+      },
+      query () {
+        return this.$store.state.query
+      },
+      checkIn: {
+        get () {
+          return moment(this.query.checkIn)
+        },
+        set (value) {
+          this.$store.commit('updateQueryCheckIn', value)
+        }
+      },
+      checkOut: {
+        get () {
+          return moment(this.query.checkOut)
+        },
+        set (value) {
+          this.$store.commit('updateQueryCheckOut', value)
+        }
+      },
+      guests: {
+        get () {
+          return this.query.guests
+        },
+        set (value) {
+          this.$store.commit('updateQueryGuests', value)
+        }
+      },
+      nights () {
+        if (!this.checkOut || !this.checkIn) {
+          return 1
+        }
+        return moment(this.checkOut).diff(this.checkIn, 'days')
+      },
+      property () {
+        return this.$store.state.property
+      },
+      dailyMin () {
+        let self = this
+        if (!self.property.unit || !self.property.unit.rates) {
+          return 0
+        }
+        let currentRate = self.property.unit.rates[0]
+        if (self.checkIn) {
+          self.property.unit.rates.forEach(function (rate) {
+            if (new Date(rate.startDate).getTime() <= self.checkIn &&
+                new Date(rate.endDate).getTime() > self.checkIn) {
+              currentRate = rate
+            }
+          })
+        }
+
+        if (currentRate.dailyMin) {
+          return utils.addTax(currentRate.dailyMin)
+        }
+        return 0
+      },
+      total () {
+        return utils.addTax(this.quote.total, {places: 2})
+      }
+    },
+    watch: {
+      checkIn () {
+        this.mode = 'quote'
+      },
+      checkOut () {
+        this.mode = 'quote'
+      },
+      guests () {
+        this.mode = 'quote'
+      }
+    },
+    methods: {
+      quoteProperty () {
+        this.quoteLoading = true
+        return axios
+          .request({
+            url: '/public/bookings/quote',
+            params: {
+              code: this.quote.code,
+              checkIn: this.checkIn.format('YYYY-MM-DD'),
+              checkOut: this.checkOut.format('YYYY-MM-DD'),
+              guests: this.query.guests
+            },
+            method: 'get'
+          })
+          .then(response => {
+            if (!response.data.error) {
+              this.$store.commit('updateQuote', response.data)
+              this.error = false
+              this.mode = 'book'
+            } else {
+              this.error = true
+            }
+            this.quoteLoading = false
+          })
+          .catch(error => {
+            console.error('response error', error)
+            this.mode = 'book'
+            this.quoteLoading = false
+          })
+      },
+      bookProperty () {
+        this.showDetails = true
+        this.$router.push({
+          path: `/${this.lang}/property/${this.$route.params.id}/${this.$route.params.unitId}/booking`,
+          query: {
+            checkIn: this.checkIn.format('YYYY-MM-DD'),
+            checkOut: this.checkOut.format('YYYY-MM-DD'),
+            guests: this.query.guests
+          }
+        })
+      }
+    }
+  }
+</script>
+
+<style lang="scss">
+  @import '../../assets/css/vars';
+
+  .check-availability {
 
     &.landing-form .b-form {
       width: 72%;
@@ -84,6 +281,10 @@
       @media (max-width: 25rem) {
         margin-left: 0.375rem;
       }
+
+      &.m-error {
+        color: $color-red;
+      }
     }
     .b-property-price {
       margin-left: 0.5rem;
@@ -104,182 +305,9 @@
         margin-left: 0;
       }
     }
-  }
-</style>
 
-<template lang="pug">
-  form.m-landing.check-availbility(
-    @submit.prevent="bookProperty"
-  )
-    .b-form
-      .b-form-item
-        label {{ $t('availabilityForm.checkIn') }}
-        .form-field
-          landing-date-picker(v-model="checkIn")
-      .b-form-item
-        label {{ $t('availabilityForm.checkOut') }}
-        .form-field
-          landing-date-picker(v-model="checkOut")
-      .b-form-item
-        label {{ $t('availabilityForm.guests') }}
-        .form-field
-          input(
-            v-model.number="guests"
-          )
-
-    .b-action
-      .b-form-item.m-quote(v-if="mode === 'quote'")
-        .b-quote
-          span from
-          span.b-property-price USD {{ dailyMin }}
-          .b-quote-info per property for 1 night
-
-        .button.b-submit(
-          v-on:click.prevent="quoteProperty"
-          v-bind:loading="quoteLoading"
-        ) {{ $t('availabilityForm.checkDates') }}
-
-      .b-form-item.m-book(v-if="mode === 'book'")
-        .b-quote
-          span.b-property-price USD {{ quote.total }}
-          .b-quote-info per property for {{ nights }} nights
-
-        button.button.b-submit(type="submit") {{ $t('availabilityForm.book') }}
-</template>
-
-<script>
-  import axios from '~plugins/axios'
-  import LandingDatePicker from '~components/landings/LandingDatePicker.vue'
-  import arrowRight from '~assets/svg/arrow-right.svg'
-  import moment from 'moment'
-
-  export default {
-    components: {
-      LandingDatePicker
-    },
-    data () {
-      return {
-        icons: {
-          arrowRight
-        },
-        mode: 'quote',
-        quoteLoading: false,
-        editable: false,
-        clearable: true
-      }
-    },
-    computed: {
-      lang () {
-        return this.$store.state.lang.lang
-      },
-      quote () {
-        return this.$store.state.quote
-      },
-      query () {
-        return this.$store.state.query
-      },
-      checkIn: {
-        get () {
-          return moment(this.query.checkIn)
-        },
-        set (value) {
-          this.$store.commit('updateQueryCheckIn', value)
-        }
-      },
-      checkOut: {
-        get () {
-          return moment(this.query.checkOut)
-        },
-        set (value) {
-          this.$store.commit('updateQueryCheckOut', value)
-        }
-      },
-      guests: {
-        get () {
-          return this.query.guests
-        },
-        set (value) {
-          this.$store.commit('updateQueryGuests', value)
-        }
-      },
-      nights () {
-        if (!this.checkOut || !this.checkIn) {
-          return 1
-        }
-        return moment(this.checkOut).diff(this.checkIn, 'days')
-      },
-      property () {
-        return this.$store.state.property
-      },
-      dailyMin () {
-        let self = this
-        if (!self.property.unit || !self.property.unit.rates) {
-          return 0
-        }
-        let currentRate = self.property.unit.rates[0]
-        if (self.checkIn) {
-          self.property.unit.rates.forEach(function(rate) {
-            if (new Date(rate.startDate).getTime() <= self.checkIn &&
-                new Date(rate.endDate).getTime() > self.checkIn) {
-              currentRate = rate
-            }
-          })
-        }
-
-        if (currentRate.dailyMin) {
-          return currentRate.dailyMin.toFixed()
-        }
-        return 0
-      }
-    },
-    watch: {
-      checkIn () {
-        this.mode = 'quote'
-      },
-      checkOut () {
-        this.mode = 'quote'
-      },
-      guests () {
-        this.mode = 'quote'
-      }
-    },
-    methods: {
-      quoteProperty () {
-        this.quoteLoading = true
-        return axios
-          .request({
-            url: '/public/bookings/quote',
-            params: {
-              code: this.quote.code,
-              checkIn: this.checkIn.format('YYYY-MM-DD'),
-              checkOut: this.checkOut.format('YYYY-MM-DD'),
-              guests: this.query.guests
-            },
-            method: 'get'
-          })
-          .then(response => {
-            if (!response.data.error) {
-              this.$store.commit('updateQuote', response.data)
-            }
-            this.mode = 'book'
-            this.quoteLoading = false
-          })
-          .catch(error => {
-            console.error('response error', error)
-            this.mode = 'book'
-            this.quoteLoading = false
-          })
-      },
-      bookProperty () {
-        this.$router.push({
-          path: `/${this.lang}/property/${this.$route.params.id}/${this.$route.params.unitId}/booking`,
-          query: {
-            checkIn: this.checkIn.format('YYYY-MM-DD'),
-            checkOut: this.checkOut.format('YYYY-MM-DD'),
-            guests: this.query.guests
-          }
-        })
-      }
+    .b-details {
+      border-top: 1px solid green;
     }
   }
-</script>
+</style>

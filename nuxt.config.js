@@ -82,7 +82,10 @@ module.exports = {
     }
   },
   router: {
-    middleware: 'i18n',
+    middleware: [
+      'i18n',
+      'redirects'
+    ],
     scrollBehavior: function () {
       return { x: 0, y: 0 }
     }

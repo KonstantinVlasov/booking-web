@@ -46,7 +46,10 @@
     components: {
       CheckAvailability
     },
-    fetch ({store, route}) {
+    fetch ({store, route, query}) {
+      if (Object.keys(query).length !== 0) {
+        store.commit('updateQuery', query)
+      }
       return axios
         .request({
           url: `/public/properties/${route.params.id}/${route.params.unitId}`,
@@ -59,16 +62,10 @@
           console.error('response', error)
         })
     },
-    data () {
-      return {
-        carouselHeight: '450px',
-        markerIcon: { url: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEiIHdpZHRoPSI0MiIgaGVpZ2h0PSI0MiIgdmlld0JveD0iLTEgLTEgMjYgMjUiPg0KPHN0eWxlPg0KcGF0aCB7c3Ryb2tlLXdpZHRoOiAxcHg7c3Ryb2tlOiAjNjQ5MDFFO30NCjwvc3R5bGU+DQo8cGF0aCBkPSJNMTIsMEM4LjEsMCw1LDMuMSw1LDdjMCw2LDcsMTcsNywxN3M3LTExLjEsNy0xN0MxOSwzLjEsMTUuOSwwLDEyLDB6IE0xMiw5Yy0xLjEsMC0yLTAuOS0yLTIgYzAtMS4xLDAuOS0yLDItMnMyLDAuOSwyLDJDMTQsOC4xLDEzLjEsOSwxMiw5eiIgZmlsbD0iIzk2Yzg0NSI+PC9wYXRoPg0KPC9zdmc+' }
-      }
-    },
     computed: {
       property () {
         return this.$store.state.property
-      },
+      }
     }
   }
 </script>

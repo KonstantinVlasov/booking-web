@@ -1,6 +1,6 @@
 <style lang="scss">
-  @import "~assets/css/mixins.scss";
-  @import "~assets/css/vars.scss";
+  @import "../../assets/css/mixins.scss";
+  @import "../../assets/css/vars.scss";
 
   .featured-property {
     @include clearfix;
@@ -107,13 +107,19 @@
         img(v-bind:src="photoUrl")
 
       .b-property-info
-        .b-property-price USD {{ unit.rates[0].dailyMin}}
+        .b-property-price USD {{ dailyMin }}
 
         | {{ title }}
         span.b-dot {{ property.address.city }}
 </template>
 
 <script>
+  import utils from '~plugins/utils'
+
+  /**
+   * @param this.property.units
+   * @param this.property.photos
+   */
   export default {
     name: 'featuredProperty',
     computed: {
@@ -126,7 +132,7 @@
           url = url.split('/upload/')
           // width 360, height 270, crop fill, quality auto
           url[0] += '/upload/w_360,h_270,c_fill,q_auto/'
-          url = url.join('');
+          url = url.join('')
         }
         return url
       },
@@ -138,6 +144,9 @@
       },
       title () {
         return this.property.name.substring(0, 24)
+      },
+      dailyMin () {
+        return utils.addTax(this.unit.rates[0].dailyMin)
       },
       lang () {
         return this.$store.state.lang.lang

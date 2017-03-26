@@ -16,6 +16,7 @@
             search-form.landing-form
           property-item(
             v-for="property in search.docs"
+            v-bind:key="property.id"
             v-bind:property="property"
             v-bind:loading="loading"
             v-bind:checkIn="query.checkIn"
@@ -32,7 +33,6 @@
 
 <script>
   import axios from '~plugins/axios'
-  import moment from 'moment'
   import SearchForm from '~components/landings/SearchForm.vue'
   import PropertyItem from '~components/property/PropertyItem.vue'
 
@@ -50,8 +50,14 @@
     fetch ({store, query}) {
       store.commit('updateQuery', query)
     },
-    data ({store}) {
+    asyncData ({store}) {
       return fetchProperties(store.state.query)
+    },
+    data () {
+      return {
+        loading: true,
+        search: {}
+      }
     },
     computed: {
       query () {

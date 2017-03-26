@@ -1,3 +1,5 @@
+'use strict'
+
 import axios from '~plugins/axios'
 import moment from 'moment'
 
@@ -21,7 +23,8 @@ export const state = {
     checkOut: moment.utc(checkOut),
     guests: 2,
     total: undefined
-  }
+  },
+  booked: false
 }
 
 export const mutations = {
@@ -32,6 +35,7 @@ export const mutations = {
   },
   // query mutations
   updateQuery (state, value) {
+    console.log('updateQuery', value)
     updateQueryTerm(state, value.term)
     updateQueryCheckIn(state, value.checkIn)
     updateQueryCheckOut(state, value.checkOut)
@@ -45,16 +49,22 @@ export const mutations = {
   updateQueryPage,
   // quote mutations
   updateQuote (state, quote) {
-    state.quote = quote
+    state.quote = quote || state.quote
   },
   updateQuoteCheckIn (state, checkIn) {
-    state.quote.checkIn = checkIn
+    state.quote.checkIn = checkIn || state.checkIn
   },
   updateQuoteCheckOut (state, checkOut) {
-    state.quote.checkOut = checkOut
+    state.quote.checkOut = checkOut || state.checkOut
   },
   updateQuoteGuests (state, guests) {
-    state.quote.guests = guests
+    state.quote.guests = guests || state.guests
+  },
+  completeBooking (state) {
+    state.booked = true
+  },
+  resetBooking (state) {
+    state.booked = false
   }
 }
 

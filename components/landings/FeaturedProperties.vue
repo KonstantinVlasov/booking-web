@@ -23,6 +23,7 @@
     .b-list
       featured-property(
         v-for="property in properties"
+        v-bind:key="property.id"
         v-bind:property="property"
       )
 </template>

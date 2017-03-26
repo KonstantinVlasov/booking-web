@@ -1,4 +1,4 @@
-export default function ({ store, params, error }) {
+export default function ({ store, params }) {
   let lang = params.lang || 'en'
   if (!store.state.lang.locales.includes(lang)) {
     lang = 'en'

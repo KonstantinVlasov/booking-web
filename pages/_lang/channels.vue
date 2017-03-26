@@ -1,5 +1,5 @@
 <style lang="scss" scoped>
-  @import "~assets/css/mixins.scss";
+  @import "../../assets/css/mixins.scss";
 
   .c-container {
     @include clearfix;
@@ -75,7 +75,7 @@
         title: 'iBookingNet Channels'
       }
     },
-    data ({ req }) {
+    data () {
       return {
         channels: {
           best: [
@@ -89,7 +89,7 @@
             '/web/public/images/channels/bridge-roomorama.png',
             '/web/public/images/channels/migoa.png',
             '/web/public/images/channels/holidu.png',
-            '/web/public/images/channels/muchosol.png',
+            '/web/public/images/channels/muchosol.png'
           ],
           other: [
             '/web/public/images/channels/abritel.png',
@@ -150,14 +150,9 @@
             '/web/public/images/channels/villatrips.png',
             '/web/public/images/channels/vrbo.png',
             '/web/public/images/channels/waytostay.png',
-            '/web/public/images/channels/wimdu.png',
+            '/web/public/images/channels/wimdu.png'
           ]
         }
-      }
-    },
-    head () {
-      return {
-        title: `iBookingNet Channels`
       }
     }
   }

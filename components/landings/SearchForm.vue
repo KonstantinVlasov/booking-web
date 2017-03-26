@@ -1,5 +1,5 @@
 <style lang="scss">
-  @import "~assets/css/vars.scss";
+  @import "../../assets/css/vars.scss";
 
   .search-form {
 
@@ -143,7 +143,7 @@
         },
         wherePlaceholder: '',
         editable: false,
-        clearable: true,
+        clearable: true
       }
     },
     computed: {
@@ -176,7 +176,7 @@
         set (value) {
           this.$store.commit('updateQueryGuests', value)
         }
-      },
+      }
     },
     methods: {
       searchProperties () {

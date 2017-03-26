@@ -94,7 +94,7 @@ export default {
     SearchForm,
     FeaturedProperties
   },
-  data () {
+  asyncData () {
     return fetchProperties()
   }
 }

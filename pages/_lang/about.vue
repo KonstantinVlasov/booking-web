@@ -15,14 +15,13 @@
 <script>
 export default {
   scrollToTop: true,
-  data ({ req }) {
+  asyncData ({ req }) {
     return {
       name: req ? 'server' : 'client'
     }
   },
   head () {
     return {
-      //title: `About Page (${this.name}-side)`
       title: 'About iBookingNet'
     }
   }

@@ -1,26 +1,3 @@
-<style lang="scss">
-  .property-page {
-    .b-photos-content {
-      padding: 1rem;
-      background: white;
-      box-shadow: 0 16px 64px -12px rgba(0,0,0,0.5);
-      @media (max-width: 40rem) {
-        padding: 0.5rem;
-      }
-    }
-
-    .b-property-map {
-      height: 300px;
-      width: 100%;
-      box-shadow: 0 0px 4px  rgba(0,0,0,0.3);
-
-      .vue-map-container {
-        height: 100%;
-      }
-    }
-  }
-</style>
-
 <template lang="pug">
   .property-page
     .b-page-section.m-facture
@@ -28,8 +5,11 @@
         .b-photos
           h2.b-title Photos
           .b-photos-content
-            slider
-              slider-item(v-for="photo in photos")
+            slider(v-bind:ratio="16/9")
+              slider-item(
+                v-for="photo in photos"
+                v-bind:key="photo._id"
+              )
                 img(v-bind:src="photo.url")
 
     .b-page-section
@@ -85,7 +65,6 @@
     },
     data () {
       return {
-        carouselHeight: '450px',
         markerIcon: { url: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEiIHdpZHRoPSI0MiIgaGVpZ2h0PSI0MiIgdmlld0JveD0iLTEgLTEgMjYgMjUiPg0KPHN0eWxlPg0KcGF0aCB7c3Ryb2tlLXdpZHRoOiAxcHg7c3Ryb2tlOiAjNjQ5MDFFO30NCjwvc3R5bGU+DQo8cGF0aCBkPSJNMTIsMEM4LjEsMCw1LDMuMSw1LDdjMCw2LDcsMTcsNywxN3M3LTExLjEsNy0xN0MxOSwzLjEsMTUuOSwwLDEyLDB6IE0xMiw5Yy0xLjEsMC0yLTAuOS0yLTIgYzAtMS4xLDAuOS0yLDItMnMyLDAuOSwyLDJDMTQsOC4xLDEzLjEsOSwxMiw5eiIgZmlsbD0iIzk2Yzg0NSI+PC9wYXRoPg0KPC9zdmc+' }
       }
     },
@@ -119,20 +98,29 @@
         }
         return photos
       }
-    },
-    methods: {
-      fitCarouselHeight () {
-        // let carouselContainer = document.getElementsByClassName('el-carousel__container')[0]
-        // this.carouselHeight = carouselContainer.clientWidth * 9 / 16 + 'px'
-      }
-    },
-    mounted () {
-      document.body.scrollTop= 0
-      window.addEventListener('resize', this.fitCarouselHeight)
-      this.fitCarouselHeight()
-    },
-    beforeDestroy () {
-      window.removeEventListener('resize', this.fitCarouselHeight)
     }
   }
 </script>
+
+<style lang="scss">
+  .property-page {
+    .b-photos-content {
+      padding: 1rem;
+      background: white;
+      box-shadow: 0 16px 64px -12px rgba(0,0,0,0.5);
+      @media (max-width: 40rem) {
+        padding: 0.5rem;
+      }
+    }
+
+    .b-property-map {
+      height: 300px;
+      width: 100%;
+      box-shadow: 0 0px 4px  rgba(0,0,0,0.3);
+
+      .vue-map-container {
+        height: 100%;
+      }
+    }
+  }
+</style>

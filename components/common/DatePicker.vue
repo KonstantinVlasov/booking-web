@@ -11,15 +11,25 @@
       }
     },
     props: {
-      type: 'div'
+      type: 'div',
+      dateFormat: {
+        type: String,
+        default: 'd'
+      }
     },
     mounted () {
-      let options = {}
+      let options = {
+        disableMobile: true,
+        dateFormat: this.dateFormat,
+        defaultDate: new Date()
+      }
       this.calendar = new Flatpickr(this.$el, options)
     },
     destroyed () {
-      this.calendar.destroy()
-      this.calendar = null
+      if (this.calendar) {
+        this.calendar.destroy()
+        this.calendar = null
+      }
     },
   }
 </script>
