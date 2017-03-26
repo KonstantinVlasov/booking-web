@@ -28,6 +28,7 @@ module.exports = {
   plugins: [
     '~plugins/ga.js',
     '~plugins/axios',
+    '~plugins/utils',
     '~plugins/common-components',
     '~plugins/flatpickr',
     '~plugins/i18n',
@@ -36,6 +37,7 @@ module.exports = {
   performance: {
     gzip: true
   },
+  cache: true,
   build: {
     vendor: [
       'axios',
