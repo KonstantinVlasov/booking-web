@@ -1,10 +1,8 @@
 'use strict'
 
-import axios from '~plugins/axios'
 import moment from 'moment'
-
-const checkIn = moment.utc().add(3, 'days').startOf('day').toDate()
-const checkOut = moment.utc().add(10, 'days').startOf('day').toDate()
+import axios from '~plugins/axios'
+import utils from '~plugins/utils'
 
 export const state = {
   property: {
@@ -13,14 +11,14 @@ export const state = {
   query: {
     term: undefined,
     page: 1,
-    checkIn: checkIn,
-    checkOut: checkOut,
+    checkIn: utils.defaultDates.checkIn,
+    checkOut: utils.defaultDates.checkOut,
     guests: 2
   },
   quote: {
     code: undefined,
-    checkIn: moment.utc(checkIn),
-    checkOut: moment.utc(checkOut),
+    checkIn: utils.defaultDates.checkIn,
+    checkOut: utils.defaultDates.checkOut,
     guests: 2,
     total: undefined
   },
@@ -77,10 +75,11 @@ function updateQueryTerm (state, value) {
   state.query.term = value ? value.toString().trim() : ''
 }
 function updateQueryCheckIn (state, value) {
-  state.query.checkIn = moment.utc(value).toDate()
+  console.log('updateQueryCheckIn', value)
+  state.query.checkIn = moment(value).toDate()
 }
 function updateQueryCheckOut (state, value) {
-  state.query.checkOut = moment.utc(value).toDate()
+  state.query.checkOut = moment(value).toDate()
 }
 function updateQueryGuests (state, value) {
   state.query.guests = +value || 2

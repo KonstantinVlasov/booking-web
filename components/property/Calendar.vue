@@ -1,5 +1,5 @@
 <style lang="scss">
-  @import "~assets/css/vars.scss";
+  @import "../../assets/css/vars.scss";
 
   .calendar {
     max-width: 60rem;
@@ -216,11 +216,11 @@
     .b-calendar-content
       .b-arrow.m-left(
         v-html="icons.arrowLeft"
-        @click="prevMonths()"
+        v-on:click="prevMonths()"
       )
       .b-arrow.m-right(
         v-html="icons.arrowRight"
-        @click="nextMonths()"
+        v-on:click="nextMonths()"
       )
       .b-flatpickr-input.m-fp1
         input
@@ -263,7 +263,7 @@ export default {
   },
   computed: {
     startDay () {
-      return moment.utc(this.vacancy.startDay)
+      return moment(this.vacancy.startDay)
     }
   },
   mounted () {
@@ -297,7 +297,7 @@ export default {
   },
   props: {
     vacancy: {
-      default () {
+      'default' () {
         return {}
       }
     }
@@ -325,79 +325,77 @@ function syncCalendars (dates, index, updateMonth) {
       }
     }
   })
-  setTimeout(function() {
+  setTimeout(function () {
     syncInProgress = false
   }, 50)
 }
 function getCalendar ({index, startDay, $el, vacancy}) {
   let self = this
   let state = self.state
-  let max = 3
   let options = {
-      inline: true,
-      mode: 'range',
-      onValueUpdate (dObj, dStr, fp, dayElem) {
-        if (syncInProgress) {
-          return
-        }
-
-        if (state.status === 'start') {
-          state.status = 'complete'
-          state.startDate = moment(dObj[0]).format('YYYY-MM-DD')
-          state.endDate = moment(dObj[dObj.length-1]).format('YYYY-MM-DD')
-        } else if (state.status === 'empty' || state.status === 'complete') {
-          state.status = 'start'
-          state.startDate = moment(dObj[dObj.length-1]).format('YYYY-MM-DD')
-          state.endDate = undefined
-          state.startedIndex = index
-        }
-
-        let updateMonth = true
-        if (state.startedIndex < index) {
-          updateMonth = false
-        }
-
-        self.syncCalendars(dObj, index, updateMonth)
-      },
-      onReady (dObj, dStr, fp) {
-        /*
-        document.querySelectorAll(".numInput.cur-year").forEach(function (elem) {
-          elem.addEventListener("scroll", function(e) {
-            console.info('scroll1')
-          })
-          elem.onscroll = function(e) {
-            console.info('scroll2')
-          }
-        })*/
-      },
-      onDayCreate (dObj, dStr, fp, dayElem) {
-        let date = moment.utc(dayElem.dateObj)
-        let days = date.diff(startDay, 'days')
-        let state
-        let changeOver
-
-        if (days >= 0) {
-          state = vacancy.availability[days]
-          changeOver = vacancy.changeOver[days]
-        }
-
-        if (!state || state === 'N') {
-          dayElem.classList.add('m-disabled')
-          dayElem.innerHTML += "<span class='b-disabled'></span>"
-        }
-        if (!changeOver || changeOver !== 'C') {
-          dayElem.classList.add('m-no-arrival')
-          dayElem.innerHTML += "<span class='b-disabled'></span>"
-        }
-
-        if (dayElem.classList.contains('prevMonthDay') ||
-          dayElem.classList.contains('nextMonthDay')
-        ) {
-          dayElem.innerHTML += "<span class='b-disabled'></span>"
-        }
+    inline: true,
+    mode: 'range',
+    onValueUpdate (dObj, dStr, fp, dayElem) {
+      if (syncInProgress) {
+        return
       }
+
+      if (state.status === 'start') {
+        state.status = 'complete'
+        state.startDate = moment(dObj[0]).format('YYYY-MM-DD')
+        state.endDate = moment(dObj[dObj.length - 1]).format('YYYY-MM-DD')
+      } else if (state.status === 'empty' || state.status === 'complete') {
+        state.status = 'start'
+        state.startDate = moment(dObj[dObj.length - 1]).format('YYYY-MM-DD')
+        state.endDate = undefined
+        state.startedIndex = index
+      }
+
+      let updateMonth = true
+      if (state.startedIndex < index) {
+        updateMonth = false
+      }
+
+      self.syncCalendars(dObj, index, updateMonth)
+    },
+//    onReady (dObj, dStr, fp) {
+//      document.querySelectorAll('.numInput.cur-year').forEach(function (elem) {
+//        elem.addEventListener('scroll', function(e) {
+//          console.info('scroll1')
+//        })
+//        elem.onscroll = function(e) {
+//          console.info('scroll2')
+//        }
+//      })
+//    },
+    onDayCreate (dObj, dStr, fp, dayElem) {
+      let date = moment(dayElem.dateObj)
+      let days = date.diff(startDay, 'days')
+      let state
+      let changeOver
+
+      if (days >= 0) {
+        state = vacancy.availability[days]
+        changeOver = vacancy.changeOver[days]
+      }
+
+      if (!state || state === 'N') {
+        dayElem.classList.add('m-disabled')
+        dayElem.innerHTML += "<span class='b-disabled'></span>"
+      }
+      if (!changeOver || changeOver !== 'C') {
+        dayElem.classList.add('m-no-arrival')
+        dayElem.innerHTML += "<span class='b-disabled'></span>"
+      }
+
+      if (dayElem.classList.contains('prevMonthDay') ||
+        dayElem.classList.contains('nextMonthDay')
+      ) {
+        dayElem.innerHTML += "<span class='b-disabled'></span>"
+      }
+    }
   }
 
-  return new Flatpickr($el.querySelector(`.m-fp${index+1} input`), options)
+  return new window.Flatpickr($el.querySelector(`.m-fp${index + 1} input`), options)
 }
 </script>

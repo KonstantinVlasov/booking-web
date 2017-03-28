@@ -6,11 +6,17 @@
       .b-form-item
         label {{ $t('availabilityForm.checkIn') }}
         .form-field
-          landing-date-picker(v-model="checkIn")
+          landing-date-picker(
+            v-model="checkIn"
+            v-bind:vacancy="property.unit.vacancy"
+          )
       .b-form-item
         label {{ $t('availabilityForm.checkOut') }}
         .form-field
-          landing-date-picker(v-model="checkOut")
+          landing-date-picker(
+            v-model="checkOut"
+            v-bind:vacancy="property.unit.vacancy"
+          )
       .b-form-item
         label {{ $t('availabilityForm.guests') }}
         .form-field
@@ -23,9 +29,7 @@
         .b-quote
           span from
           span.b-property-price USD {{ dailyMin }}
-          .b-quote-info(v-if="!error") per property for 1 night
-
-          .b-quote-info.m-error(v-if="error") Dates unavailable
+          .b-quote-info per property for 1 night
 
         .button.b-submit(
           v-on:click.prevent="quoteProperty"
@@ -41,6 +45,16 @@
 
     <!--.b-details(v-if="!showDetails")-->
       <!--.b-details-item Cancellation policy-->
+
+    sweet-modal(
+      icon="warning"
+      ref="minStayModal"
+    ) Sorry! There are {{ minStay }} days minimum to stay for this period
+
+    sweet-modal(
+      icon="warning"
+      ref="unavailableModal"
+    ) Sorry! Dates unavailable
 </template>
 
 <script>
@@ -51,6 +65,9 @@
   import moment from 'moment'
 
   /**
+   * @param this.$refs
+   * @param this.$refs.minStayModal
+   * @param this.$refs.unavailableModal
    * @param this.$router
    * @param this.$store.commit
    * @param this.property.unit.rates
@@ -64,12 +81,11 @@
         icons: {
           arrowRight
         },
+        minStay: undefined,
         mode: 'quote',
         showDetails: false,
-        error: undefined,
         quoteLoading: false,
-        editable: false,
-        clearable: true
+        editable: false
       }
     },
     computed: {
@@ -96,6 +112,12 @@
         },
         set (value) {
           this.$store.commit('updateQueryCheckOut', value)
+          let vacancyDay = utils.getVacancyDay(this.property.unit.vacancy, this.query.checkIn)
+          let nights = moment(this.query.checkOut).diff(moment(this.query.checkIn), 'days')
+          if (nights < vacancyDay.minStay) {
+            this.minStay = vacancyDay.minStay
+            this.$refs.minStayModal.open()
+          }
         }
       },
       guests: {
@@ -136,9 +158,17 @@
         return 0
       },
       total () {
-        return utils.addTax(this.quote.total, {places: 2})
+        return this.quote.total
       }
     },
+//    mounted () {
+//      if (!this.checkIn) {
+//        this.$store.commit('updateQueryCheckIn', utils.defaultDates.checkIn)
+//      }
+//      if (!this.checkOut) {
+//        this.$store.commit('updateQueryCheckOut', utils.defaultDates.checkOut)
+//      }
+//    },
     watch: {
       checkIn () {
         this.mode = 'quote'
@@ -166,18 +196,18 @@
           })
           .then(response => {
             if (!response.data.error) {
+              response.data.total = utils.addTax(response.data.total, {places: 2})
               this.$store.commit('updateQuote', response.data)
-              this.error = false
               this.mode = 'book'
             } else {
-              this.error = true
+              this.$refs.unavailableModal.open()
             }
             this.quoteLoading = false
           })
           .catch(error => {
             console.error('response error', error)
-            this.mode = 'book'
             this.quoteLoading = false
+            this.$refs.unavailableModal.open()
           })
       },
       bookProperty () {
@@ -280,10 +310,6 @@
       }
       @media (max-width: 25rem) {
         margin-left: 0.375rem;
-      }
-
-      &.m-error {
-        color: $color-red;
       }
     }
     .b-property-price {

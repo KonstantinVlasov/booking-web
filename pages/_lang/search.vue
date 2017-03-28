@@ -60,6 +60,9 @@
       }
     },
     computed: {
+      lang () {
+        return this.$store.state.lang.lang
+      },
       query () {
         return this.$store.state.query
       }
@@ -72,7 +75,7 @@
         let currentQuery = Object.assign({}, this.$route.query)
         Object.assign(currentQuery, query)
         this.$router.push({
-          path: 'search',
+          path: `/${this.lang}/search`,
           query: currentQuery
         })
       }

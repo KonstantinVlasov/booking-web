@@ -142,8 +142,7 @@
           arrowRight
         },
         wherePlaceholder: '',
-        editable: false,
-        clearable: true
+        editable: false
       }
     },
     computed: {
@@ -181,7 +180,7 @@
     methods: {
       searchProperties () {
         this.$router.push({
-          path: `${this.lang}/search`,
+          path: `/${this.lang}/search`,
           query: {
             term: this.query.term,
             checkIn: this.checkIn.format('YYYY-MM-DD'),
