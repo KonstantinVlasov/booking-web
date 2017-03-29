@@ -28,7 +28,7 @@
       width: 0.675rem;
     }
 
-    & + .flatpickr-calendar {
+    &.m-vacancy + .flatpickr-calendar {
       .flatpickr-day {
         background-color: $color-green;
 
@@ -88,7 +88,10 @@
 </style>
 
 <template lang="pug">
-  .date-picker-landing(v-on:click="open")
+  .date-picker-landing(
+    v-on:click="open"
+    v-bind:class="{'m-vacancy': vacancy}"
+  )
     input.date-picker.b-date-picker-day(
       readonly
       v-bind:value="day"
