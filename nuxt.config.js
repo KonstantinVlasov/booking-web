@@ -26,13 +26,13 @@ module.exports = {
   },
   env,
   plugins: [
-    '~plugins/ga.js',
     '~plugins/axios',
     '~plugins/utils',
     '~plugins/common-components',
-    '~plugins/flatpickr',
     '~plugins/i18n',
-    '~plugins/vue2-google-maps'
+    {src: '~plugins/ga.js', ssr: false},
+    {src: '~plugins/flatpickr', ssr: false},
+    {src: '~plugins/vue2-google-maps', ssr: false}
   ],
   performance: {
     gzip: true

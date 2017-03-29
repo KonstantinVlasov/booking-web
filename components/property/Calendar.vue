@@ -267,13 +267,11 @@ export default {
     }
   },
   mounted () {
-    // if (process.BROWSER_BUILD) {
     this.calendars.push(this.getCalendar({index: 0, startDay: this.startDay, $el: this.$el, vacancy: this.vacancy}))
     this.calendars.push(this.getCalendar({index: 1, startDay: this.startDay, $el: this.$el, vacancy: this.vacancy}))
     this.calendars.push(this.getCalendar({index: 2, startDay: this.startDay, $el: this.$el, vacancy: this.vacancy}))
     this.calendars[1].changeMonth(1)
     this.calendars[2].changeMonth(2)
-    // }
   },
   destroyed () {
     this.calendars.forEach(calendar => {
