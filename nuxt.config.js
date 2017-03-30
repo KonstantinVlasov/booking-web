@@ -41,7 +41,8 @@ module.exports = {
   build: {
     vendor: [
       'axios',
-      'moment'
+      'moment',
+      'babel-polyfill'
     ],
     loaders: [{
       test: /\.css$/,
