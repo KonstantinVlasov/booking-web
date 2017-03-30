@@ -26,6 +26,7 @@
       display: inline-block;
       transform: rotate(90deg);
       width: 0.675rem;
+      height: 1.125rem;
     }
 
     &.m-vacancy + .flatpickr-calendar {
