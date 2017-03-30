@@ -235,8 +235,8 @@
       .b-legend-item.m-disable not available
 
     .b-calendar-form
-      div {{ state.startDate }}
-      div {{ state.endDate }}
+      //div {{ state.startDate }}
+      //div {{ state.endDate }}
 </template>
 
 <script>
