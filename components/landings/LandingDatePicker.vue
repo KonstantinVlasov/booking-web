@@ -159,7 +159,7 @@
       let options = {
         dateFormat: 'd',
         defaultDate: this.value.toDate(),
-        minDate: moment().add(3, 'days').startOf('day').toDate(),
+        minDate: moment().add(4, 'days').startOf('day').toDate(),
         maxDate: moment().add(365, 'days').startOf('day').toDate(),
         appendTo: this.$el,
         'static': true,
