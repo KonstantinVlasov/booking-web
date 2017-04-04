@@ -39,16 +39,16 @@ h1 {
   font-size: 3rem;
   font-weight: 600;
   text-align: center;
-  margin: auto;
-  color: white;
-  text-align: center;
+  margin: auto auto 4rem;
 
   @media (max-width: 60rem) {
     font-size: 2.5rem;
+    margin-bottom: 3rem;
   }
 
   @media (max-width: 40rem) {
     font-size: 1.75rem;
+    margin-bottom: 2rem;
   }
 
 }
@@ -91,6 +91,11 @@ input, select, textarea, button {
   outline: none;
 }
 
+
+strong {
+  font-weight: bold;
+  font-family: "Calibri", "Helvetica", Arial, sans-serif;
+}
 
 img {
   width: 100%;
