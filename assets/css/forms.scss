@@ -30,6 +30,11 @@ label {
   line-height: 1;
   box-sizing: border-box;
   margin-bottom: 0.5rem;
+
+  &.m-required:after {
+    content: '*';
+    color: $color-red;
+  }
 }
 
 .form-item {
@@ -41,5 +46,10 @@ label {
 
   label {
     display: block;
+  }
+
+  .b-validation {
+    font-size: 0.8125rem;
+    color: $color-red;
   }
 }
