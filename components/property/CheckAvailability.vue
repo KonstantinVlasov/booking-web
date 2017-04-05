@@ -25,7 +25,7 @@
           )
 
     .b-action
-      .b-form-item.m-quote(v-if="mode === 'quote'")
+      .b-form-item.m-quote(v-if="!total || mode === 'quote'")
         .b-quote
           span from
           span.b-property-price USD {{ dailyMin }}
@@ -36,7 +36,7 @@
           v-bind:class="{'m-loading': quoteLoading}"
         ) {{ $t('availabilityForm.checkDates') }}
 
-      .b-form-item.m-book(v-if="mode === 'book'")
+      .b-form-item.m-book(v-if="total && mode === 'book'")
         .b-quote
           span.b-property-price USD {{ total }}
           .b-quote-info per property for {{ nights }} nights
@@ -82,10 +82,10 @@
           arrowRight
         },
         minStay: undefined,
-        mode: 'quote',
         showDetails: false,
         quoteLoading: false,
-        editable: false
+        editable: false,
+        mode: 'book'
       }
     },
     computed: {
@@ -94,6 +94,9 @@
       },
       quote () {
         return this.$store.state.quote
+      },
+      total () {
+        return this.quote.total
       },
       query () {
         return this.$store.state.query
@@ -156,9 +159,6 @@
           return utils.addTax(currentRate.dailyMin)
         }
         return 0
-      },
-      total () {
-        return this.quote.total
       }
     },
 //    mounted () {
@@ -183,6 +183,15 @@
     methods: {
       quoteProperty () {
         this.quoteLoading = true
+
+        this.$router.push({
+          query: {
+            checkIn: this.checkIn.format('YYYY-MM-DD'),
+            checkOut: this.checkOut.format('YYYY-MM-DD'),
+            guests: this.query.guests
+          }
+        })
+
         return axios
           .request({
             url: '/public/bookings/quote',
@@ -200,12 +209,14 @@
               this.$store.commit('updateQuote', response.data)
               this.mode = 'book'
             } else {
+              this.$store.commit('updateQuoteTotal', undefined)
               this.$refs.unavailableModal.open()
             }
             this.quoteLoading = false
           })
           .catch(error => {
             console.error('response error', error)
+            this.$store.commit('updateQuoteTotal', undefined)
             this.quoteLoading = false
             this.$refs.unavailableModal.open()
           })

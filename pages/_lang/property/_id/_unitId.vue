@@ -47,20 +47,39 @@
       CheckAvailability
     },
     fetch ({store, route, query}) {
-      if (Object.keys(query).length !== 0) {
-        store.commit('updateQuery', query)
-      }
-      return axios
-        .request({
-          url: `/public/properties/${route.params.id}/${route.params.unitId}`,
-          method: 'get'
-        })
-        .then(response => {
-          store.commit('setProperty', response.data)
-        })
-        .catch(error => {
-          console.error('response', error)
-        })
+      return new Promise(function (resolve, reject) {
+        axios
+          .request({
+            url: `/public/properties/${route.params.id}/${route.params.unitId}`,
+            method: 'get'
+          })
+          .then(response => {
+            if (Object.keys(query).length !== 0) {
+              store.commit('updateQuery', query)
+              store.commit('updateQuote', query)
+            }
+
+            store.commit('setProperty', response.data)
+
+            if (Object.keys(query).length !== 0) {
+              store.dispatch('quoteProperty')
+                .then(() => {
+                  console.log('success')
+                  resolve()
+                })
+                .catch((error) => {
+                  console.log('error', error)
+                  reject()
+                })
+            } else {
+              resolve()
+            }
+          })
+          .catch(error => {
+            console.error('response', error)
+            reject()
+          })
+      })
     },
     computed: {
       property () {

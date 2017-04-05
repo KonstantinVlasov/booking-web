@@ -1,6 +1,12 @@
 <style lang="scss">
   .booking-page {
 
+    padding: 2rem 0 0;
+
+    @media (max-width: 30rem) {
+      padding: 0;
+    }
+
     .b-booking-form {
       display: inline-block;
       width: 50%;
@@ -33,8 +39,8 @@
 </style>
 
 <template lang="pug">
-  .booking-page
-    .b-page-section.m-facture
+  .b-page-section.m-facture
+    .booking-page(data-vv-scope="booking-form")
       .container
         .b-booking-form
           h3 Enter Your Details
@@ -43,11 +49,14 @@
               .row
                 .col-12
                   .form-item
-                    label First Name
+                    label.m-required First Name
                     input(
-                      required
+                      name="name"
+                      data-vv-as="First Name"
                       v-model.trim="booking.name"
+                      v-validate="'required'"
                     )
+                    span(v-show="errors.has('name')" class="b-validation") {{ errors.first('name') }}
                 .col-12
                   .form-item
                     label Last Name
@@ -57,18 +66,24 @@
               .row
                 .col-12
                   .form-item
-                    label Email
+                    label.m-required Email
                     input(
+                      name="email"
                       type="email"
-                      required
                       v-model.trim="booking.email"
+                      v-validate="'required|email'"
                     )
+                    span(v-show="errors.has('email')" class="b-validation") {{ errors.first('email') }}
                 .col-12
                   .form-item
-                    label Phone
+                    label.m-required Phone
                     input(
+                      name="phone"
+                      data-vv-as="Phone"
                       v-model.trim="booking.phone"
+                      v-validate="'required'"
                     )
+                    span(v-show="errors.has('phone')" class="b-validation") {{ errors.first('phone') }}
               .row
                 .col-24
                   .form-item
@@ -83,21 +98,26 @@
           .b-booking-form-content
             form
               .form-item
-                label Card number
+                label.m-required Card Number
                 input(
-                  required
-                  v-model.trim="booking.cc.number"
+                  name="cc.number"
+                  data-vv-as="Card Number"
                   type="number"
+                  v-model.trim="booking.cc.number"
+                  v-validate="'required|numeric|min:16|max:20'"
                 )
+                span(v-show="errors.has('cc.number')" class="b-validation") {{ errors.first('cc.number') }}
               .row
                 .col-24
                   .form-item
-                    label Expiration Date
+                    label.m-required Expiration Date
                     .row
                       .col-14
                         select(
-                          required
+                          name="month"
+                          data-vv-as="Month"
                           v-model="month"
+                          v-validate="'required'"
                         )
                           option(value="01") 01 - January
                           option(value="02") 02 - February
@@ -111,39 +131,49 @@
                           option(value="10") 10 - October
                           option(value="11") 11 - November
                           option(value="12") 12 - December
+                        span(v-show="errors.has('month')" class="b-validation") {{ errors.first('month') }}
                       .col-10
                         select(
-                          required
+                          name="year"
+                          data-vv-as="Year"
                           v-model="year"
+                          v-validate="'required'"
                         )
                           option(
                             v-for="yearItem in yearList"
                             v-bind:value="yearItem"
                           ) {{ yearItem }}
+                        span(v-show="errors.has('year')" class="b-validation") {{ errors.first('year') }}
 
               .row
                 .col-14
                   .form-item
-                    label.m-wide Cardholder Name
+                    label.m-wide.m-required Cardholder Name
                     input(
-                      required
+                      name="cc.name"
+                      data-vv-as="Cardholder Name"
                       v-model.trim="booking.cc.name"
+                      v-validate="'required'"
                     )
+                    span(v-show="errors.has('cc.name')" class="b-validation") {{ errors.first('cc.name') }}
 
                 .col-10
                   .form-item
-                    label Security Code
+                    label.m-required Security Code
                     input(
-                      required
+                      name="cc.cvv"
+                      data-vv-as="Security Code"
                       v-model="booking.cc.cvv"
                       type="password"
+                      v-validate="'required|numeric'"
                     )
+                    span(v-show="errors.has('cc.cvv')" class="b-validation") {{ errors.first('cc.cvv') }}
 
           .b-booking-form-footer Your data is transferred in a secured and encrypted way.
 
         .b-action
           .button.m-shadow(
-            v-on:click="bookProperty"
+            v-on:click="submitForm"
             v-bind:class="{'m-loading': loading}"
           ) Confirm Booking
 </template>
@@ -177,7 +207,8 @@
         month: 'Month',
         year: 'Year',
         yearList: [],
-        loading: false
+        loading: false,
+        showErrors: false
       }
     },
     computed: {
@@ -199,7 +230,15 @@
         this.booking.currency = this.property.details.currency
         this.booking.units.push({})
       },
+      submitForm () {
+        this.validateForm()
+          .then(this.bookProperty)
+          .catch(() => {
+            this.showErrors = true
+          })
+      },
       bookProperty () {
+        this.showErrors = false
         console.log(this.expiration)
         let component = this
         if (!this.loading) {
@@ -213,7 +252,7 @@
           unit.guests = this.quote.guests
           unit.total = this.quote.total
           this.booking.total = this.quote.total
-          unit.guestName = this.booking.name + ' ' + this.booking.lastName
+          unit.guestName = this.booking.name + (this.booking.lastName ? ' ' + this.booking.lastName : '')
 
           console.log('this.booking', this.booking)
 
@@ -244,6 +283,9 @@
             component.finishRequest()
           })
         }
+      },
+      validateForm () {
+        return this.$validator.validateAll();
       },
       configYearList () {
         let year = new Date().getFullYear()
