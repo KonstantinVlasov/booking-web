@@ -127,10 +127,6 @@
     padding: 5rem 0 6rem;
     position: relative;
 
-    &:first-child {
-      padding-top: 2rem;
-    }
-
     @media (max-width: 60rem) {
       padding: 3rem 0;
     }
@@ -142,6 +138,10 @@
       h1,h2,h3,h4,h5,h6 {
         color: inherit;
       }
+    }
+
+    &.m-slim {
+      padding-top: 2rem;
     }
 
     &.m-facture {

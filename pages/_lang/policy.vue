@@ -1,7 +1,7 @@
 <template lang="pug">
   .page
     .b-page-content
-      .b-page-section
+      .b-page-section.m-slim
         .container.m-short
           h1 Privacy policy
           ol
