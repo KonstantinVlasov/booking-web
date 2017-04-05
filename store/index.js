@@ -47,6 +47,7 @@ export const mutations = {
   updateQueryPage,
   // quote mutations
   updateQuote (state, quote) {
+    console.log('updateQuote with', quote)
     state.quote = quote || state.quote
   },
   updateQuoteCheckIn (state, checkIn) {
@@ -58,6 +59,9 @@ export const mutations = {
   updateQuoteGuests (state, guests) {
     state.quote.guests = guests || state.guests
   },
+  updateQuoteTotal (state, total) {
+    state.quote.total = total
+  },
   completeBooking (state) {
     state.booked = true
   },
@@ -67,7 +71,8 @@ export const mutations = {
 }
 
 export const actions = {
-  fetchProperty
+  fetchProperty,
+  quoteProperty
 }
 
 // query mutations
@@ -75,7 +80,6 @@ function updateQueryTerm (state, value) {
   state.query.term = value ? value.toString().trim() : ''
 }
 function updateQueryCheckIn (state, value) {
-  console.log('updateQueryCheckIn', value)
   state.query.checkIn = moment(value).toDate()
 }
 function updateQueryCheckOut (state, value) {
@@ -88,7 +92,7 @@ function updateQueryPage (state, value) {
   state.query.page = +value || 1
 }
 
-function fetchProperty ({commit, route}, query) {
+function fetchProperty ({commit, route}) {
   return axios
     .request({
       url: `/public/properties/${route.params.id}/${route.params.unitId}`,
@@ -100,4 +104,32 @@ function fetchProperty ({commit, route}, query) {
     .catch(error => {
       console.error('response', error)
     })
+}
+
+function quoteProperty ({state, commit}) {
+  return new Promise(function (resolve, reject) {
+    axios
+      .request({
+        url: '/public/bookings/quote',
+        params: {
+          code: state.quote.code,
+          checkIn: moment(state.quote.checkIn).format('YYYY-MM-DD'),
+          checkOut: moment(state.quote.checkOut).format('YYYY-MM-DD'),
+          guests: state.quote.guests
+        },
+        method: 'get'
+      })
+      .then(response => {
+        console.log('response.data', response.data)
+        if (!response.data.error) {
+          response.data.total = utils.addTax(response.data.total, {places: 2})
+          commit('updateQuote', response.data)
+          console.log('total', state.quote.total)
+          resolve()
+        } else {
+          reject(response.data.error)
+        }
+      })
+      .catch(reject)
+  })
 }
