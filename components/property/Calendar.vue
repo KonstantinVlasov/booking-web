@@ -263,7 +263,7 @@ export default {
   },
   computed: {
     startDay () {
-      return moment(this.vacancy.startDay)
+      return moment(this.vacancy.startDay).startOf('day')
     }
   },
   mounted () {
@@ -356,18 +356,8 @@ function getCalendar ({index, startDay, $el, vacancy}) {
 
       self.syncCalendars(dObj, index, updateMonth)
     },
-//    onReady (dObj, dStr, fp) {
-//      document.querySelectorAll('.numInput.cur-year').forEach(function (elem) {
-//        elem.addEventListener('scroll', function(e) {
-//          console.info('scroll1')
-//        })
-//        elem.onscroll = function(e) {
-//          console.info('scroll2')
-//        }
-//      })
-//    },
     onDayCreate (dObj, dStr, fp, dayElem) {
-      let date = moment(dayElem.dateObj)
+      let date = moment(dayElem.dateObj).startOf('day')
       let days = date.diff(startDay, 'days')
       let state
       let changeOver

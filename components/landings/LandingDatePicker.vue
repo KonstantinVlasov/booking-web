@@ -139,7 +139,7 @@
         return this.moment.format('/ MMM')
       },
       startDay () {
-        return this.vacancy ? moment(this.vacancy.startDay) : moment()
+        return this.vacancy ? moment(this.vacancy.startDay).startOf('day') : moment().startOf('day')
       }
     },
     methods: {
@@ -170,7 +170,7 @@
       let startDay = this.startDay
       if (vacancy && vacancy.availability && vacancy.changeOver) {
         options.onDayCreate = function (dObj, dStr, fp, dayElem) {
-          let date = moment(dayElem.dateObj)
+          let date = moment(dayElem.dateObj).startOf('day')
           let days = date.diff(startDay, 'days')
           let state
           let changeOver
