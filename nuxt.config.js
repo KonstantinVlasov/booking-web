@@ -30,6 +30,7 @@ module.exports = {
     '~plugins/utils',
     '~plugins/common-components',
     '~plugins/i18n',
+    '~plugins/vee-validate',
     {src: '~plugins/ga.js', ssr: false},
     {src: '~plugins/flatpickr', ssr: false},
     {src: '~plugins/vue2-google-maps', ssr: false}
