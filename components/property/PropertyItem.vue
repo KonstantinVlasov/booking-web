@@ -172,14 +172,24 @@
 <script>
   import utils from '~plugins/utils'
 
+  import { mapState } from 'vuex'
+
   export default {
     name: 'propertyItem',
     computed: {
-      lang () {
-        return this.$store.state.lang.lang
-      },
+      ...mapState({
+        lang: state => state.lang.lang,
+        query: 'query'
+      }),
       url () {
-        return `/${this.lang}/property/${this.property.id}/${this.property.unit.id}`
+        return {
+          path: `/${this.lang}/property/${this.property.id}/${this.property.unit.id}`,
+          query: {
+            checkIn: this.query.checkIn,
+            checkOut: this.query.checkOut,
+            guests: this.query.guests
+          }
+        }
       },
       photoUrl () {
         let url = (this.property.photo && this.property.photo.url) ? this.property.photo.url : undefined

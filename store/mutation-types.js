@@ -1,0 +1,13 @@
+export const API_FAILED = 'API_FAILED'
+
+// around search page
+export const SEARCH_PRODUCED = 'SEARCH_PRODUCED'
+export const SEARCH_QUERY_EXTENDED = 'SEARCH_QUERY_EXTENDED'
+
+// around property page
+export const PROPERTY_CHANGED = 'PROPERTY_CHANGE'
+export const QUOTE_CODE_CHANGED = 'QUOTE_CODE_CHANGED'
+export const QUOTE_QUERY_EXTENDED = 'QUOTE_QUERY_EXTENDED'
+
+export const BOOKING_COMPLETED = 'BOOKING_COMPLETED'
+export const BOOKING_RESET = 'BOOKING_RESET'

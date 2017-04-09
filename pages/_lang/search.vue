@@ -32,9 +32,10 @@
 </template>
 
 <script>
-  import axios from '~plugins/axios'
   import SearchForm from '~components/landings/SearchForm.vue'
   import PropertyItem from '~components/property/PropertyItem.vue'
+
+  import { mapState, mapActions } from 'vuex'
 
   export default {
     scrollToTop: true,
@@ -48,74 +49,42 @@
       }
     },
     fetch ({store, query}) {
-      store.commit('updateQuery', query)
-    },
-    asyncData ({store}) {
-      return fetchProperties(store.state.query)
+      store.dispatch('extendSearchQuery', query)
+      return store.dispatch('searchProperties')
     },
     data () {
       return {
-        loading: true,
-        search: {}
+        loading: false
       }
     },
     computed: {
-      lang () {
-        return this.$store.state.lang.lang
-      },
-      query () {
-        return this.$store.state.query
-      }
+      ...mapState({
+        lang: state => state.lang.lang,
+        query: 'query',
+        search: 'search'
+      })
     },
     methods: {
+      ...mapActions([
+        'extendSearchQuery',
+        'searchProperties'
+      ]),
       selectPage (page) {
-        this.updateSearch({page})
-      },
-      updateSearch (query) {
-        let currentQuery = Object.assign({}, this.$route.query)
-        Object.assign(currentQuery, query)
-        this.$router.push({
-          path: `/${this.lang}/search`,
-          query: currentQuery
-        })
-      }
-    },
-    watch: {
-      $route () {
         this.loading = true
-        this.$store.commit('updateQuery', this.$route.query)
-        fetchProperties(this.query)
-          .then(data => {
-            this.search = data.search
+        this.extendSearchQuery({page})
+
+        this.$router.push({
+          query: this.query
+        })
+
+        this.searchProperties()
+          .then(() => {
             this.loading = false
           })
-          .catch(error => {
+          .catch(() => {
             this.loading = false
-            alert(error)
           })
       }
     }
-  }
-
-  function fetchProperties (query) {
-    return axios
-      .request({
-        url: '/public/properties/search',
-        method: 'get',
-        params: query
-      })
-      .then(response => {
-        return {
-          loading: false,
-          search: response.data.result || {}
-        }
-      })
-      .catch(error => {
-        console.error(error)
-        return {
-          loading: false,
-          search: {}
-        }
-      })
   }
 </script>

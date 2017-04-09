@@ -12,20 +12,27 @@
 <script>
   import logo from '~assets/svg/new-logo.svg'
 
+  import { mapState, mapActions } from 'vuex'
+
   export default {
     layout: 'empty',
     computed: {
-      lang () {
-        return this.$store.state.lang.lang
-      }
+      ...mapState({
+        lang: state => state.lang.lang
+      })
     },
     data () {
       return {
         logo
       }
     },
+    methods: {
+      ...mapActions([
+        'resetBooking'
+      ])
+    },
     mounted () {
-      this.$store.commit('resetBooking')
+      this.resetBooking()
     }
   }
 </script>
@@ -37,8 +44,8 @@
 
   .booking-success-page {
     max-width: 30rem;
-    padding: 6rem;
-    margin: 0 auto;
+    padding: 4rem;
+    margin: 4rem auto;
     background-color: white;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     border-radius: 3px;

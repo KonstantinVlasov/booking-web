@@ -38,7 +38,6 @@
 </template>
 
 <script>
-  import axios from '~plugins/axios'
   import CheckAvailability from '~components/property/CheckAvailability.vue'
 
   export default {
@@ -46,40 +45,9 @@
     components: {
       CheckAvailability
     },
-    fetch ({store, route, query}) {
-      return new Promise(function (resolve, reject) {
-        axios
-          .request({
-            url: `/public/properties/${route.params.id}/${route.params.unitId}`,
-            method: 'get'
-          })
-          .then(response => {
-            if (Object.keys(query).length !== 0) {
-              store.commit('updateQuery', query)
-              store.commit('updateQuote', query)
-            }
-
-            store.commit('setProperty', response.data)
-
-            if (Object.keys(query).length !== 0) {
-              store.dispatch('quoteProperty')
-                .then(() => {
-                  console.log('success')
-                  resolve()
-                })
-                .catch((error) => {
-                  console.log('error', error)
-                  reject()
-                })
-            } else {
-              resolve()
-            }
-          })
-          .catch(error => {
-            console.error('response', error)
-            reject()
-          })
-      })
+    fetch ({store, query, params}) {
+      store.dispatch('extendQuoteQuery', query)
+      return store.dispatch('fetchProperty', params)
     },
     computed: {
       property () {

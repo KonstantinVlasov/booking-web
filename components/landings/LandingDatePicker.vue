@@ -147,6 +147,7 @@
         this.calendar.open()
       },
       onChange (date) {
+        console.log('input', date[0])
         this.$emit('input', date[0])
       }
     },

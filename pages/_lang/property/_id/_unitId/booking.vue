@@ -181,6 +181,8 @@
 <script>
   import axios from '~plugins/axios'
 
+  import { mapState, mapActions } from 'vuex'
+
   /**
    * @param this.$router
    */
@@ -212,20 +214,22 @@
       }
     },
     computed: {
-      lang () {
-        return this.$store.state.lang.lang
-      },
-      property () {
-        return this.$store.state.property
-      },
-      quote () {
-        return this.$store.state.quote
-      },
+      ...mapState({
+        lang: state => state.lang.lang,
+        property: 'property',
+        quote: 'quote'
+      }),
       expiration () {
         return `${this.month}/${this.year}`
       }
     },
+    fetch ({store}) {
+      return store.dispatch('quoteProperty')
+    },
     methods: {
+      ...mapActions([
+        'completeBooking'
+      ]),
       initBooking () {
         this.booking.currency = this.property.details.currency
         this.booking.units.push({})
@@ -271,7 +275,7 @@
               console.log('error', response.data.error)
             } else {
               console.log('success')
-              this.$store.commit('completeBooking')
+              this.completeBooking()
               this.$router.push({
                 path: `/${this.lang}/bookings/success`
               })
@@ -285,7 +289,7 @@
         }
       },
       validateForm () {
-        return this.$validator.validateAll();
+        return this.$validator.validateAll()
       },
       configYearList () {
         let year = new Date().getFullYear()

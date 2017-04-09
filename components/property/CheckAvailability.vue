@@ -1,6 +1,6 @@
 <template lang="pug">
   form.m-landing.check-availability(
-    @submit.prevent="bookProperty"
+    @submit.prevent="submitBook"
   )
     .b-form
       .b-form-item
@@ -21,24 +21,24 @@
         label {{ $t('availabilityForm.guests') }}
         .form-field
           input(
-            v-model.number="guests"
+            v-model.number="localQuote.guests"
           )
 
     .b-action
-      .b-form-item.m-quote(v-if="!total || mode === 'quote'")
+      .b-form-item.m-quote(v-if="!quote.total || mode === 'quote'")
         .b-quote
           span from
           span.b-property-price USD {{ dailyMin }}
           .b-quote-info per property for 1 night
 
         .button.b-submit(
-          v-on:click.prevent="quoteProperty"
+          v-on:click.prevent="submitQuote"
           v-bind:class="{'m-loading': quoteLoading}"
         ) {{ $t('availabilityForm.checkDates') }}
 
-      .b-form-item.m-book(v-if="total && mode === 'book'")
+      .b-form-item.m-book(v-if="quote.total && mode === 'book'")
         .b-quote
-          span.b-property-price USD {{ total }}
+          span.b-property-price USD {{ quote.total }}
           .b-quote-info per property for {{ nights }} nights
 
         button.button.b-submit(type="submit") {{ $t('availabilityForm.book') }}
@@ -58,11 +58,12 @@
 </template>
 
 <script>
-  import axios from '~plugins/axios'
   import utils from '~plugins/utils'
   import LandingDatePicker from '~components/landings/LandingDatePicker.vue'
   import arrowRight from '~assets/svg/arrow-right.svg'
   import moment from 'moment'
+
+  import { mapState, mapActions } from 'vuex'
 
   /**
    * @param this.$refs
@@ -78,6 +79,7 @@
     },
     data () {
       return {
+        localQuote: Object.assign({}, this.$store.state.quote),
         icons: {
           arrowRight
         },
@@ -89,46 +91,31 @@
       }
     },
     computed: {
-      lang () {
-        return this.$store.state.lang.lang
-      },
-      quote () {
-        return this.$store.state.quote
-      },
-      total () {
-        return this.quote.total
-      },
-      query () {
-        return this.$store.state.query
-      },
+      ...mapState({
+        lang: state => state.lang.lang,
+        property: 'property',
+        quote: 'quote'
+      }),
       checkIn: {
         get () {
-          return moment(this.query.checkIn)
+          return moment(this.localQuote.checkIn)
         },
         set (value) {
-          this.$store.commit('updateQueryCheckIn', value)
+          this.localQuote.checkIn = moment(value).format('YYYY-MM-DD')
         }
       },
       checkOut: {
         get () {
-          return moment(this.query.checkOut)
+          return moment(this.localQuote.checkOut)
         },
         set (value) {
-          this.$store.commit('updateQueryCheckOut', value)
-          let vacancyDay = utils.getVacancyDay(this.property.unit.vacancy, this.query.checkIn)
-          let nights = moment(this.query.checkOut).diff(moment(this.query.checkIn), 'days')
+          this.localQuote.checkOut = moment(value).format('YYYY-MM-DD')
+          let vacancyDay = utils.getVacancyDay(this.property.unit.vacancy, this.localQuote.checkIn)
+          let nights = moment(this.localQuote.checkOut).diff(moment(this.localQuote.checkIn), 'days')
           if (nights < vacancyDay.minStay) {
             this.minStay = vacancyDay.minStay
             this.$refs.minStayModal.open()
           }
-        }
-      },
-      guests: {
-        get () {
-          return this.query.guests
-        },
-        set (value) {
-          this.$store.commit('updateQueryGuests', value)
         }
       },
       nights () {
@@ -136,9 +123,6 @@
           return 1
         }
         return moment(this.checkOut).diff(this.checkIn, 'days')
-      },
-      property () {
-        return this.$store.state.property
       },
       dailyMin () {
         let self = this
@@ -161,14 +145,6 @@
         return 0
       }
     },
-//    mounted () {
-//      if (!this.checkIn) {
-//        this.$store.commit('updateQueryCheckIn', utils.defaultDates.checkIn)
-//      }
-//      if (!this.checkOut) {
-//        this.$store.commit('updateQueryCheckOut', utils.defaultDates.checkOut)
-//      }
-//    },
     watch: {
       checkIn () {
         this.mode = 'quote'
@@ -181,54 +157,39 @@
       }
     },
     methods: {
-      quoteProperty () {
+      ...mapActions([
+        'extendQuoteQuery',
+        'quoteProperty'
+      ]),
+      submitQuote () {
         this.quoteLoading = true
-
+        this.extendQuoteQuery(this.localQuote)
         this.$router.push({
           query: {
-            checkIn: this.checkIn.format('YYYY-MM-DD'),
-            checkOut: this.checkOut.format('YYYY-MM-DD'),
-            guests: this.query.guests
+            checkIn: this.quote.checkIn,
+            checkOut: this.quote.checkOut,
+            guests: this.quote.guests
           }
         })
-
-        return axios
-          .request({
-            url: '/public/bookings/quote',
-            params: {
-              code: this.quote.code,
-              checkIn: this.checkIn.format('YYYY-MM-DD'),
-              checkOut: this.checkOut.format('YYYY-MM-DD'),
-              guests: this.query.guests
-            },
-            method: 'get'
-          })
-          .then(response => {
-            if (!response.data.error) {
-              response.data.total = utils.addTax(response.data.total, {places: 2})
-              this.$store.commit('updateQuote', response.data)
-              this.mode = 'book'
-            } else {
-              this.$store.commit('updateQuoteTotal', undefined)
-              this.$refs.unavailableModal.open()
-            }
+        this.quoteProperty()
+          .then(() => {
             this.quoteLoading = false
+            this.mode = 'book'
+            console.log('quoteProperty', this.mode, this.quote.total)
           })
-          .catch(error => {
-            console.error('response error', error)
-            this.$store.commit('updateQuoteTotal', undefined)
+          .catch(() => {
             this.quoteLoading = false
             this.$refs.unavailableModal.open()
           })
       },
-      bookProperty () {
+      submitBook () {
         this.showDetails = true
         this.$router.push({
           path: `/${this.lang}/property/${this.$route.params.id}/${this.$route.params.unitId}/booking`,
           query: {
-            checkIn: this.checkIn.format('YYYY-MM-DD'),
-            checkOut: this.checkOut.format('YYYY-MM-DD'),
-            guests: this.query.guests
+            checkIn: this.quote.checkIn,
+            checkOut: this.quote.checkOut,
+            guests: this.quote.guests
           }
         })
       }

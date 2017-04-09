@@ -4,8 +4,8 @@ import moment from 'moment'
 
 const ibookingnetTax = 1.08
 
-const checkIn = moment().add(4, 'days').startOf('day').toDate()
-const checkOut = moment().add(11, 'days').startOf('day').toDate()
+const checkIn = moment().add(4, 'days').format('YYYY-MM-DD')
+const checkOut = moment().add(11, 'days').format('YYYY-MM-DD')
 
 const defaultDates = {
   checkIn,

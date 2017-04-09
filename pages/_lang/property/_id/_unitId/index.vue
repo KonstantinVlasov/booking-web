@@ -52,6 +52,8 @@
   import Amenities from '~components/property/Amenities.vue'
   import Calendar from '~components/property/Calendar.vue'
 
+  import { mapState } from 'vuex'
+
   export default {
     scrollToTop: true,
     components: {
@@ -69,9 +71,10 @@
       }
     },
     computed: {
-      property () {
-        return this.$store.state.property
-      },
+      ...mapState({
+        lang: state => state.lang.lang,
+        property: 'property'
+      }),
       center () {
         if (this.property && this.property.address) {
           return {
@@ -116,7 +119,7 @@
     .b-property-map {
       height: 300px;
       width: 100%;
-      box-shadow: 0 0px 4px  rgba(0,0,0,0.3);
+      box-shadow: 0 0 4px rgba(0,0,0,0.3);
 
       .vue-map-container {
         height: 100%;

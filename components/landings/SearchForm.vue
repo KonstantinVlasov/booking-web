@@ -98,14 +98,14 @@
 
 <template lang="pug">
   form.m-landing.search-form(
-    @submit.prevent="searchProperties"
+    @submit.prevent="submitForm"
   )
     .b-form
       .b-form-item.b-place
         label Where
         .form-field.m-small
           input(
-            v-model.trim="query.term"
+            v-model.trim="localQuery.term"
             v-bind:placeholder="wherePlaceholder"
           )
       .b-form-item.b-dates
@@ -120,7 +120,7 @@
         label Guests
         .form-field
           input(
-            v-model.number="query.guests"
+            v-model.number="localQuery.guests"
           )
     .b-action
       .b-form-item
@@ -132,62 +132,56 @@
   import arrowRight from '~assets/svg/arrow-right.svg'
   import moment from 'moment'
 
+  import { mapState, mapActions } from 'vuex'
+
   export default {
     components: {
       LandingDatePicker
     },
     data () {
       return {
+        localQuery: Object.assign({}, this.$store.state.query),
         icons: {
           arrowRight
         },
-        wherePlaceholder: '',
-        editable: false
+        wherePlaceholder: ''
       }
     },
     computed: {
-      lang () {
-        return this.$store.state.lang.lang
-      },
-      query () {
-        return this.$store.state.query
-      },
+      ...mapState({
+        lang: state => state.lang.lang,
+        query: 'query'
+      }),
       checkIn: {
         get () {
-          return moment(this.query.checkIn)
+          return moment(this.localQuery.checkIn)
         },
         set (value) {
-          this.$store.commit('updateQueryCheckIn', value)
+          this.localQuery.checkIn = moment(value).format('YYYY-MM-DD')
         }
       },
       checkOut: {
         get () {
-          return moment(this.query.checkOut)
+          return moment(this.localQuery.checkOut)
         },
         set (value) {
-          this.$store.commit('updateQueryCheckOut', value)
-        }
-      },
-      guests: {
-        get () {
-          return this.query.guests
-        },
-        set (value) {
-          this.$store.commit('updateQueryGuests', value)
+          this.localQuery.checkOut = moment(value).format('YYYY-MM-DD')
         }
       }
     },
     methods: {
-      searchProperties () {
+      ...mapActions([
+        'extendSearchQuery',
+        'searchProperties'
+      ]),
+      submitForm () {
+        this.extendSearchQuery(this.localQuery)
         this.$router.push({
           path: `/${this.lang}/search`,
-          query: {
-            term: this.query.term,
-            checkIn: this.checkIn.format('YYYY-MM-DD'),
-            checkOut: this.checkOut.format('YYYY-MM-DD'),
-            guests: this.query.guests
-          }
+          query: this.query
         })
+        console.log(this.query)
+        this.searchProperties()
       },
       updateWherePlaceholder () {
         if (window.innerWidth > 960 || window.innerWidth <= 400) {

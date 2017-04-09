@@ -5,13 +5,13 @@ const langs = {
   en
 }
 
-export const state = {
-  locales: ['en', 'fr'], // available langages
+const state = {
+  locales: ['en', 'fr'], // available languages
   lang: null, // current lang
   _: {} // store for translations
 }
 
-export const mutations = {
+const mutations = {
   SET_LANG (state, lang) {
     state.lang = lang
   },
@@ -20,7 +20,7 @@ export const mutations = {
   }
 }
 
-export const actions = {
+const actions = {
   setLang ({state, commit}, lang) {
     commit('SET_LANG', lang)
     if (!state._[lang]) {
@@ -35,3 +35,12 @@ export const actions = {
     }
   }
 }
+
+const store = {
+  state,
+  mutations,
+  actions,
+  namespaced: true
+}
+
+export default store
