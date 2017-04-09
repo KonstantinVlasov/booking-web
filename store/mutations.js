@@ -17,6 +17,7 @@ export default {
   },
   [types.QUOTE_CODE_CHANGED] (state, property) {
     state.quote.code = `${property.providerId}.${property.unit.id}`
+    console.info('state.quote.code', state.quote.code)
   },
   [types.QUOTE_QUERY_EXTENDED] (state, quote) {
     Object.assign(state.quote, quote)

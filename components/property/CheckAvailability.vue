@@ -175,7 +175,6 @@
           .then(() => {
             this.quoteLoading = false
             this.mode = 'book'
-            console.log('quoteProperty', this.mode, this.quote.total)
           })
           .catch(() => {
             this.quoteLoading = false

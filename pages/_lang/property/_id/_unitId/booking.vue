@@ -223,9 +223,6 @@
         return `${this.month}/${this.year}`
       }
     },
-    fetch ({store}) {
-      return store.dispatch('quoteProperty')
-    },
     methods: {
       ...mapActions([
         'completeBooking'
@@ -243,7 +240,6 @@
       },
       bookProperty () {
         this.showErrors = false
-        console.log(this.expiration)
         let component = this
         if (!this.loading) {
           this.loading = true
@@ -272,7 +268,7 @@
           })
           .then(response => {
             if (response.data.error) {
-              console.log('error', response.data.error)
+              console.error('error', response.data.error)
             } else {
               console.log('success')
               this.completeBooking()

@@ -67,7 +67,7 @@
             withCredentials: true
           })
             .then(function () {
-              console.log('success')
+              console.info('success contact call')
               component.finishRequest()
             })
             .catch(function (error) {

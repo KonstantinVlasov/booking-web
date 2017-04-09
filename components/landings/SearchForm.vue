@@ -175,13 +175,12 @@
         'searchProperties'
       ]),
       submitForm () {
-        this.extendSearchQuery(this.localQuery)
         this.$router.push({
           path: `/${this.lang}/search`,
-          query: this.query
+          query: {
+            ...this.localQuery
+          }
         })
-        console.log(this.query)
-        this.searchProperties()
       },
       updateWherePlaceholder () {
         if (window.innerWidth > 960 || window.innerWidth <= 400) {

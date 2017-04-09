@@ -1,12 +1,14 @@
 <template lang="pug">
-  .booking-success-page
-    .b-logo(v-html="logo")
-    .b-title Booking Successful
+  .page.page-search
+    .b-page-section
+      .booking-success-page
+        .b-logo(v-html="logo")
+        .b-title Booking Successful
 
-    .b-content We just sent you email with confirmation and will send email with reservation details soon.
+        .b-content We just sent you email with confirmation and will send email with reservation details soon.
 
-    br
-    nuxt-link.b-back(v-bind:to="`/${lang}`") Back to site
+        br
+        nuxt-link.b-back(v-bind:to="`/${lang}`") Back to site
 </template>
 
 <script>
@@ -45,7 +47,7 @@
   .booking-success-page {
     max-width: 30rem;
     padding: 4rem;
-    margin: 4rem auto;
+    margin: 0 auto;
     background-color: white;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     border-radius: 3px;

@@ -45,9 +45,16 @@
     components: {
       CheckAvailability
     },
-    fetch ({store, query, params}) {
-      store.dispatch('extendQuoteQuery', query)
-      return store.dispatch('fetchProperty', params)
+    fetch ({store, query, params, route}) {
+      return new Promise(function (resolve, reject) {
+        store.dispatch('extendQuoteQuery', query)
+        return store.dispatch('fetchProperty', params)
+          .then(() => {
+            return store.dispatch('quoteProperty')
+          })
+          .then(resolve)
+          .catch(resolve)
+      })
     },
     computed: {
       property () {

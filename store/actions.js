@@ -82,6 +82,7 @@ function setProperty ({commit}, property) {
 
 function quoteProperty ({state, commit, dispatch}) {
   dispatch('clearApiError')
+  console.info('quoteProperty quote', state.quote)
   return new Promise(function (resolve, reject) {
     axios
       .request({
@@ -115,12 +116,13 @@ function quoteProperty ({state, commit, dispatch}) {
   })
 }
 
-function completeBooking (state) {
-  state.booked = true
+function completeBooking ({commit}) {
+  commit(types.BOOKING_COMPLETED)
 }
 
-function resetBooking (state) {
-  state.booked = false
+function resetBooking ({commit}) {
+  commit(types.BOOKING_RESET)
+  commit(types.QUOTE_QUERY_EXTENDED, {total: undefined})
 }
 
 export default actions
