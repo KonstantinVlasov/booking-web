@@ -2,7 +2,7 @@
   @import "../../assets/css/mixins.scss";
   @import "../../assets/css/vars.scss";
 
-  .property-item {
+  .booking-property {
     @include clearfix;
     margin-bottom: 1.5rem;
     background: white;
@@ -13,33 +13,17 @@
     text-decoration: none;
     transition: 0.5s all ease;
 
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-
-    @media (max-width: 50rem) {
-      display: block;
-    }
-
-    &:visited {
-      color: $color-font;
-    }
-    &:hover {
-      box-shadow: 0 3px 8px rgba(0,0,0,0.2);
-    }
-
-    &.m-loading {
-      opacity: 0.3;
-    }
+    display: block;
 
     .b-property-photo {
       flex: 0 0 180px;
       float: left;
-      width: 180px;
+      width: 270px;
       position: relative;
       overflow: hidden;
       border-radius: 2px 0 0 2px;
       box-shadow: 0 0 6px rgba(0,0,0,0.15);
+      margin-right: 1rem;
 
       &:before {
         display: block;
@@ -47,7 +31,7 @@
         width: 100%;
         padding-top: 3/4 * 100%;
         @media (max-width: 32rem) {
-        padding-top: 9/16 * 100%;
+          padding-top: 9/16 * 100%;
         }
       }
       >img {
@@ -64,36 +48,29 @@
       }
     }
 
-    .b-property-info {
-      flex-grow: 1;
+    .b-info {
       padding: 1rem 1rem 0;
-      @media (max-width: 50rem) {
-        margin: 0 0 0 180px;
-      }
+      margin-bottom: 0.5rem;
+      vertical-align: top;
       @media (max-width: 32rem) {
         margin: 0;
         padding: 1rem;
       }
     }
 
-    .b-property-quote {
-      flex: 0 0 200px;
-      float: right;
-      text-align: right;
-      width: 200px;
-      padding: 1rem 1.25rem 0 0;
-      @media (max-width: 50rem) {
-        background-color: #e2edf1;
-        width: 100%;
-        padding: 1rem 1.25rem;
-      }
-    }
-
-    .b-property-title  {
+    .b-info-title  {
       font-family: $font-family-title;
       font-size: 1.25rem;
       color: black;
       margin-bottom: 0.5rem;
+    }
+
+    .b-info-text {
+      font-size: 1.125rem;
+      color: black;
+      @media (max-width: 30rem) {
+        font-size: 1rem;
+      }
     }
 
     .b-property-type {
@@ -109,67 +86,84 @@
       }
     }
 
+    .b-property-quote {
+      flex: 0 0 200px;
+      float: right;
+      text-align: right;
+      background-color: #e2edf1;
+      width: 100%;
+      padding: 1rem 1.25rem;
+    }
+
+    .b-quote {
+      display: inline-block;
+      margin: 0;
+      font-size: 1.125rem;
+      color: $color-dark;
+      @media (max-width: 30rem) {
+        font-size: 1rem;
+      }
+    }
+    .b-quote-info {
+      @media (max-width: 60rem) {
+        display: inline-block;
+        margin-left: 0.5rem;
+      }
+      @media (max-width: 25rem) {
+        margin-left: 0.375rem;
+      }
+    }
     .b-property-price {
       margin-left: 0.5rem;
       font-family: $font-family-text-bold;
       font-size: 1.5rem;
       font-weight: 400;
       color: black;
-    }
-
-    .b-quote {
-      display: inline-block;
-      margin-bottom: 0.75rem;
-      @media (max-width: 35rem) {
-        margin: 0;
+      @media (max-width: 25rem) {
+        font-size: 1.25rem;
+        margin-left: 0.375rem;
       }
-    }
-
-    .b-property-show {
-      vertical-align: bottom;
-      margin-left: 1rem;
     }
     .b-property-quote-info {
-      @media (max-width: 50rem) {
-        display: inline-block;
-        margin-left: 0.5rem;
-      }
-      @media (max-width: 35rem) {
+      @media (max-width: 30rem) {
         display: block;
-        margin: 0;
       }
     }
   }
 </style>
 
 <template lang="pug">
-  nuxt-link.property-item(
-    v-bind:to="url"
-    v-bind:class="{'m-loading': loading}"
-  )
-
+  .booking-property
     .b-property-photo
       img(v-bind:src="photoUrl")
 
-    .b-property-info
-      .b-property-title {{ property.name }}
-      .b-property-type {{ property.details.type }}
+    .b-info
+      .b-info-title {{ property.name }}
+      .b-info-text
+        span.b-property-type {{ property.details.type }}
         span.b-dot {{ property.address.city }}, {{ property.address.country }}
-      .b-property-rooms
+
+      .b-info-text
         span {{ property.unit.details.maximumOccupancy }} Persons
         span.b-dot {{ property.unit.details.roomsCount }} Rooms
         span.b-dot {{ property.unit.details.bedroomsCount }} Bedrooms
 
+    .b-info
+      .b-info-title Booking Info
+      .b-info-text {{ checkIn }} - {{ checkOut }}
+      .b-info-text
+        span {{ nights }} nights
+        span.b-dot {{ quote.guests }} guests
+
     .b-property-quote
       .b-quote
-        span from
-        span.b-property-price USD {{ dailyMin }}
-        .b-property-quote-info per property for 1 night
-      .button.b-property-show View details
+        span Total
+        span.b-property-price USD {{ quote.total }}&nbsp;
+        span.b-property-quote-info per property for {{ nights }} nights
 </template>
 
 <script>
-  import utils from '~plugins/utils'
+  import moment from 'moment'
 
   import { mapState } from 'vuex'
 
@@ -178,18 +172,9 @@
     computed: {
       ...mapState({
         lang: state => state.lang.lang,
-        query: 'query'
+        property: 'property',
+        quote: 'quote'
       }),
-      url () {
-        return {
-          path: `/${this.lang}/property/${this.property.id}/${this.property.unit.id}`,
-          query: {
-            checkIn: this.query.checkIn,
-            checkOut: this.query.checkOut,
-            guests: this.query.guests
-          }
-        }
-      },
       photoUrl () {
         let url = (this.property.photo && this.property.photo.url) ? this.property.photo.url : undefined
         if (url) {
@@ -197,24 +182,14 @@
         }
         return url
       },
-      dailyMin () {
-        if (!this.property.unit || !this.property.unit.rates) {
-          return 0
-        }
-        let currentRate = this.property.unit.rates[0]
-        if (this.query.checkIn) {
-          this.property.unit.rates.forEach(rate => {
-            if (new Date(rate.startDate).getTime() <= this.query.checkIn &&
-                new Date(rate.endDate).getTime() > this.query.checkIn) {
-              currentRate = rate
-            }
-          })
-        }
-
-        if (currentRate.dailyMin) {
-          return utils.addTax(currentRate.dailyMin)
-        }
-        return 0
+      checkIn () {
+        return moment(this.quote.checkIn).format('DD MMM YYYY')
+      },
+      checkOut () {
+        return moment(this.quote.checkOut).format('DD MMM YYYY')
+      },
+      nights () {
+        return moment(this.quote.checkOut).diff(moment(this.quote.checkIn), 'days')
       }
     },
     methods: {
@@ -224,10 +199,6 @@
         result[0] += '/upload/w_360,h_270,c_fill,q_auto/'
         return result.join('')
       }
-    },
-    props: [
-      'property',
-      'loading'
-    ]
+    }
   }
 </script>

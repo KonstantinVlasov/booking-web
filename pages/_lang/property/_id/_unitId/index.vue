@@ -1,54 +1,73 @@
 <template lang="pug">
-  .property-page
-    .b-page-section.m-facture
-      .container.m-medium
-        .b-photos
-          h2.b-title Photos
-          .b-photos-content
-            slider(v-bind:ratio="16/9")
-              slider-item(
-                v-for="photo in photos"
-                v-bind:key="photo._id"
-              )
-                img(v-bind:src="photo.url")
+  .page.property-page(v-if="property && property.units")
+    .b-page-content
+      .b-page-header
+        .b-page-header-background.m-darken
+          img(v-if="property.photos" v-bind:src="property.photos[0].url")
+        h1 {{ property.name }}
+        p.b-property-type
+          span {{ property.units[0].details.type }}
+          span.b-dot
+          span {{ property.address.city }}, {{ property.address.country }}
+          br
+          span {{ property.units[0].details.maximumOccupancy }} Persons
+          span.b-dot {{ property.units[0].details.roomsCount }} Rooms
+          span.b-dot {{ property.units[0].details.bedroomsCount }} Bedrooms
 
-    .b-page-section
-      .container.m-medium
-        h2 Interior
-        p {{ property.description }}
+      .b-page-section.m-no-padding.m-facture
+        .b-page-overlay.m-fit
+          check-availability.landing-form
 
-        br
-        br
-        h2 Exterior
-        p {{ property.address.description }}
+      .b-page-section.m-facture
+        .container.m-medium
+          .b-photos
+            h2.b-title Photos
+            .b-photos-content
+              slider(v-bind:ratio="16/9")
+                slider-item(
+                  v-for="photo in photos"
+                  v-bind:key="photo._id"
+                )
+                  img(v-bind:src="photo.url")
 
-        br
-        br
-        h2 Facilities
-        amenities(v-bind:amenities="property.amenities")
+      .b-page-section
+        .container.m-medium
+          h2 Interior
+          p {{ property.description }}
 
-        br
-        br
-        br
-        h2 Location
-        h3 {{ property.address.country }}, {{ property.address.city }}, {{ property.address.address }}
-        .b-property-map
-          gmap-map(
-            v-bind:center="center"
-            v-bind:zoom="14"
-          )
-            gmap-marker(
-              v-bind:position="center"
-              v-bind:icon="markerIcon"
+          br
+          br
+          h2 Exterior
+          p {{ property.address.description }}
+
+          br
+          br
+          h2 Facilities
+          amenities(v-bind:amenities="property.amenities")
+
+          br
+          br
+          br
+          h2 Location
+          h3 {{ property.address.country }}, {{ property.address.city }}, {{ property.address.address }}
+          .b-property-map
+            gmap-map(
+              v-bind:center="center"
+              v-bind:zoom="14"
             )
+              gmap-marker(
+                v-bind:position="center"
+                v-bind:icon="markerIcon"
+              )
 
-    .b-page-section.m-facture
-      .container
-        h2 Availability
-        calendar(v-bind:vacancy="unit.vacancy")
+      .b-page-section.m-facture
+        .container
+          h2 Availability
+          calendar(v-bind:vacancy="unit.vacancy")
 </template>
 
 <script>
+  import CheckAvailability from '~components/property/CheckAvailability.vue'
   import Amenities from '~components/property/Amenities.vue'
   import Calendar from '~components/property/Calendar.vue'
 
@@ -58,12 +77,21 @@
     scrollToTop: true,
     components: {
       Amenities,
-      Calendar
+      Calendar,
+      CheckAvailability
     },
     head () {
       return {
         title: `${this.property.name} - iBookingNet`
       }
+    },
+    fetch ({store, query, params}) {
+      return new Promise(function (resolve) {
+        store.dispatch('extendQuoteQuery', query)
+        return store.dispatch('fetchProperty', params)
+          .then(resolve)
+          .catch(resolve)
+      })
     },
     data () {
       return {
@@ -107,6 +135,18 @@
 
 <style lang="scss">
   .property-page {
+    .b-property-type {
+      text-transform: capitalize;
+    }
+
+    .b-dot {
+      &:before {
+        content: '\2022';
+        margin: 0 0.4rem 0;
+        font-size: 0.75rem;
+        vertical-align: middle;
+      }
+    }
     .b-photos-content {
       padding: 1rem;
       background: white;

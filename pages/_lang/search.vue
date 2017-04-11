@@ -19,7 +19,6 @@
             v-bind:key="property.id"
             v-bind:property="property"
             v-bind:loading="loading"
-            v-bind:checkIn="query.checkIn"
           )
 
           .b-pagination

@@ -35,6 +35,9 @@ label {
     content: '*';
     color: $color-red;
   }
+  @media (max-width: 25rem) {
+    font-size: 13px;
+  }
 }
 
 .form-item {

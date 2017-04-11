@@ -122,7 +122,7 @@
         if (!this.checkOut || !this.checkIn) {
           return 1
         }
-        return moment(this.checkOut).diff(this.checkIn, 'days')
+        return this.checkOut.diff(this.checkIn, 'days')
       },
       dailyMin () {
         let self = this
