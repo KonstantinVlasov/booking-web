@@ -1,8 +1,6 @@
 <style lang="scss">
   .booking-page {
 
-    padding: 2rem 0 0;
-
     @media (max-width: 30rem) {
       padding: 0;
     }
