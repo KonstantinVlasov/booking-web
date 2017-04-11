@@ -10,30 +10,40 @@
   form.contact-us
     .form-item
       input(
-        v-model="name"
+        name="name"
         placeholder="Name"
-        required
+        data-vv-as="Name"
+        v-model.trim="name"
+        v-validate="'required'"
       )
+      span(v-show="errors.has('name')" class="b-validation") {{ errors.first('name') }}
     .form-item
       input(
-        v-model="email"
+        name="email"
         placeholder="Email"
-        required
+        data-vv-as="Email"
+        v-model.trim="email"
+        v-validate="'required'"
       )
+      span(v-show="errors.has('email')" class="b-validation") {{ errors.first('email') }}
     .form-item
       input(
-        v-model="phone"
+        name="phone"
         placeholder="Phone"
-        required
+        data-vv-as="Phone"
+        v-model.trim="phone"
+        v-validate="'required'"
       )
+      span(v-show="errors.has('phone')" class="b-validation") {{ errors.first('phone') }}
     .form-item
       textarea(
         v-model="comment"
+        rows="5"
         placeholder="Message"
       )
     br
     .button(
-      v-on:click="sendRequest"
+      v-on:click="submitForm"
       v-bind:class="{'m-loading': loading, 'm-disabled': requestSent}"
     ) {{ buttonTitle }}
 </template>
@@ -54,6 +64,16 @@
       }
     },
     methods: {
+      submitForm () {
+        this.validateForm()
+          .then(this.sendRequest)
+          .catch(() => {
+            this.showErrors = true
+          })
+      },
+      validateForm () {
+        return this.$validator.validateAll()
+      },
       sendRequest () {
         let component = this
         if (!this.requestSent && this.email && this.name && this.phone) {
