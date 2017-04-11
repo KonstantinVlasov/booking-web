@@ -2,6 +2,8 @@
   "menu": {
     "home": "Home",
     "about": "About",
+    "contact": "Contact",
+    "policy": "Private Policy",
     "channels": "Channels",
     "partners": "Partners",
     "terms": "Terms and Conditions"

@@ -2,10 +2,12 @@
   @import "../assets/css/vars.scss";
 
   footer {
+    text-align: center;
     background: $color-dark;
-    padding: 4rem 1rem;
+    padding: 3rem 1rem;
     color: white;
     font-size: 0.875rem;
+    line-height: 1.5;
 
     a {
       color: white;
@@ -17,10 +19,12 @@
     }
 
     &>.b-links {
-      text-align: center;
+      padding: 0 2rem;
+      text-align: left;
+      display: inline-block;
 
       &>.b-link {
-        display: inline-block;
+        display: block;
         padding: 0 0.5rem;
       }
     }
@@ -41,9 +45,14 @@
     br
     br
     .b-links
+      nuxt-link.b-link(v-bind:to="`/${lang}/about`") {{ $t('menu.about') }}
       nuxt-link.b-link(v-bind:to="`/${lang}/channels`") {{ $t('menu.channels') }}
       nuxt-link.b-link(v-bind:to="`/${lang}/partners`") {{ $t('menu.partners') }}
+
+    .b-links
+      nuxt-link.b-link(v-bind:to="`/${lang}/policy`") {{ $t('menu.policy') }}
       nuxt-link.b-link(v-bind:to="`/${lang}/terms`") {{ $t('menu.terms') }}
+      nuxt-link.b-link(v-bind:to="`/${lang}/contact`") {{ $t('menu.contact') }}
 </template>
 
 <script>
