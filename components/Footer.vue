@@ -53,6 +53,11 @@
       nuxt-link.b-link(v-bind:to="`/${lang}/policy`") {{ $t('menu.policy') }}
       nuxt-link.b-link(v-bind:to="`/${lang}/terms`") {{ $t('menu.terms') }}
       nuxt-link.b-link(v-bind:to="`/${lang}/contact`") {{ $t('menu.contact') }}
+
+    .b-links
+      a.b-link(href="https://www.facebook.com/I-Booking-Net-461713700833268") Facebook
+      a.b-link(href="https://twitter.com/ibookingn") Twitter
+      a.b-link(href="https://www.instagram.com/ibookingnet") Instagram
 </template>
 
 <script>
