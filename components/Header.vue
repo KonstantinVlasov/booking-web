@@ -7,8 +7,8 @@
     .b-menu
       nuxt-link.b-menu-item(v-bind:to="`/${lang}`") {{ $t('menu.home') }}
       nuxt-link.b-menu-item(v-bind:to="`/${lang}/channels`") {{ $t('menu.channels') }}
+      nuxt-link.b-menu-item(v-bind:to="`/${lang}/pms`") {{ $t('menu.pms') }}
       nuxt-link.b-menu-item(v-bind:to="`/${lang}/partners`") {{ $t('menu.partners') }}
-      nuxt-link.b-menu-item(v-bind:to="`/${lang}/about`") {{ $t('menu.about') }}
 </template>
 
 <style lang="scss">
