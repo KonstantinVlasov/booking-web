@@ -140,7 +140,7 @@
         return this.property.photos ? this.property.photos[0] : {}
       },
       unit () {
-        return this.property.units ? this.property.units[0] : {}
+        return this.property.units && this.property.units.length ? this.property.units[0] : {rates: [{dailyMin: 90}]}
       },
       title () {
         return this.property.name.substring(0, 24)

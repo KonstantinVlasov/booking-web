@@ -17,13 +17,12 @@
 </style>
 
 <template lang="pug">
-  .featured-properties
+  .featured-properties(v-if="properties && properties.length")
     h4 {{ subtitle }}
     h2.b-title {{ title }}
     .b-list
       featured-property(
         v-for="property in properties"
-        v-if="property.id"
         v-bind:key="property.id"
         v-bind:property="property"
       )
@@ -37,14 +36,10 @@ export default {
   components: {
     FeaturedProperty
   },
-  computed: {
-  },
   props: [
     'properties',
     'title',
     'subtitle'
-  ],
-  methods: {
-  }
+  ]
 }
 </script>
